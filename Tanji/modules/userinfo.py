@@ -18,7 +18,7 @@ from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
     
-from ShinobuRobot import (
+from Tanji import (
     DEV_USERS,
     OWNER_ID,
     CO_OWNER_ID,
@@ -33,17 +33,17 @@ from ShinobuRobot import (
     BOT_NAME,
     BOT_USERNAME,
 )
-from ShinobuRobot.__main__ import STATS, TOKEN, USER_INFO
-from ShinobuRobot.modules.sql import SESSION
-import ShinobuRobot.modules.sql.userinfo_sql as sql
-from ShinobuRobot.modules.disable import DisableAbleCommandHandler
-from ShinobuRobot.modules.sql.global_bans_sql import is_user_gbanned
-from ShinobuRobot.modules.sql.afk_redis import is_user_afk, afk_reason
-from ShinobuRobot.modules.sql.users_sql import get_user_num_chats
-from ShinobuRobot.modules.helper_funcs.chat_status import sudo_plus
-from ShinobuRobot.modules.helper_funcs.extraction import extract_user
-from ShinobuRobot.modules.helper_funcs.cextraction import cextract_user
-from ShinobuRobot import telethn
+from Tanji.__main__ import STATS, TOKEN, USER_INFO
+from Tanji.modules.sql import SESSION
+import Tanji.modules.sql.userinfo_sql as sql
+from Tanji.modules.disable import DisableAbleCommandHandler
+from Tanji.modules.sql.global_bans_sql import is_user_gbanned
+from Tanji.modules.sql.afk_redis import is_user_afk, afk_reason
+from Tanjit.modules.sql.users_sql import get_user_num_chats
+from Tanji.modules.helper_funcs.chat_status import sudo_plus
+from Tanji.modules.helper_funcs.extraction import extract_user
+from Tanji.modules.helper_funcs.cextraction import cextract_user
+from Tanji import telethn
 
 def no_by_per(totalhp, percentage):
     """
