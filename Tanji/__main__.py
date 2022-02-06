@@ -441,11 +441,11 @@ def tanji_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="Support", url="t.me/KanekiSupport"),
-                    InlineKeyboardButton(text="Updates", url="https://t.me/KanekiUpdates"),
+                    InlineKeyboardButton(text="✢ Support ✢", url="t.me/KanekiSupport"),
+                    InlineKeyboardButton(text="✢ Updates ✢", url="https://t.me/KanekiUpdates"),
                  ],
                  [
-                    InlineKeyboardButton(text="Go Back", callback_data="tanji_"),
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
                  
                  ]
                 ]
@@ -461,27 +461,14 @@ def tanji_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                   InlineKeyboardButton(text="Tanjirou Kamado", url="https://t.me/Lynncept_iz_here"),
-                   InlineKeyboardButton(text="LYNNCEPT", url="https://youtube.com/channel/UCyR9VMAfEe2jgXQpwnpVcvw"),
+                   InlineKeyboardButton(text="✢ Network ✢", url="https://t.me/NyaaNeko"),
+                   InlineKeyboardButton(text="✢ Owner ✢", url="https://t.me/Darling_Hiro"),
                  ],
                  [
-                    InlineKeyboardButton(text="VJ Walker", url="https://t.me/Slayer_vj"),
-                    InlineKeyboardButton(text="Priyansh", url="https://t.me/Itz_me_crazy_boy"),
+                    InlineKeyboardButton(text="✢ Co-Owner ✢", url="https://t.me/NyaaNeko"),
+                    InlineKeyboardButton(text="✢ Main Dev ✢", url="https://t.me/SastaDev"),
                  ],
-                 [
-                    InlineKeyboardButton(text="Lynncept Community", url="https://t.me/+0I9HqIlPy4A5ZDUx"),
-                    InlineKeyboardButton(text="Lynncept Content", url="https://t.me/Lynncept_content"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="DemonslayerCorps", url="https://t.me/Tanji_kamado_support"),
-                    InlineKeyboardButton(text="LOGAN ANIME", url="https://t.me/kanaozofficials"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Demon's residence", url="https://t.me/demonresidence"),
-                    InlineKeyboardButton(text="Paste it up", url="https://t.me/pasteitup001"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Go Back", callback_data="tanji_"),
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
                  ]
                 ]
             ),
@@ -507,7 +494,7 @@ def Source_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="Go Back", callback_data="tanji_")
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")
                  ]
                 ]
             ),
@@ -577,7 +564,7 @@ def get_help(update: Update, context: CallbackContext):
             chat.id,
             text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Go Back", callback_data="help_back")]]
+                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="help_back")]]
             ),
         )
 
