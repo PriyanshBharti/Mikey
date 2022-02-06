@@ -54,4 +54,4 @@ This command can only be used by *Admins*.
 ❂ /antichannelmode <'off'/'no'> *:* disabled anti-channel-mode
 """
 
-__mod_name__ = "✢ Anti-Channel ✢"
+__mod_name__ = "✢ Channel ✢"
