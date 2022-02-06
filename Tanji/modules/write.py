@@ -22,7 +22,7 @@ async def handwriting(_, message):
 
     await message.reply_photo(hand, caption = "Made by @Kaneki_Ken_Robot")
 
-__mod_name__ = "✢ HandWrite ✢"
+__mod_name__ = "✢ Write ✢"
 
 __help__ = """
 
