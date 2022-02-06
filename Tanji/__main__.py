@@ -198,7 +198,7 @@ def start(update: Update, context: CallbackContext):
                     update.effective_chat.id,
                     HELPABLE[mod].__help__,
                     InlineKeyboardMarkup(
-                        [[InlineKeyboardButton(text="Go Back", callback_data="help_back")]]
+                        [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="help_back")]]
                     ),
                 )
 
@@ -229,7 +229,7 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            f"<b>Hi I'm Tanjirou Kamado!</b>\n<b>Started working since:</b> <code>{uptime}</code>",
+            f"<b>Hi I'm Ken Kaneki!</b>\n<b>Started working since:</b> <code>{uptime}</code>",
             parse_mode=ParseMode.HTML
        )
 
@@ -430,7 +430,7 @@ def tanji_about_callback(update, context):
             f"\n\nYou can also set buttons for notes and filters (refer help menu)",
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Go Back", callback_data="tanji_")]]
+                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")]]
             ),
         )
     elif query.data == "tanji_support":
@@ -637,7 +637,7 @@ def settings_button(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Go Back",
+                                text="✢ Go Back ✢",
                                 callback_data="stngs_back({})".format(chat_id),
                             )
                         ]
