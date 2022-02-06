@@ -468,6 +468,7 @@ def tanji_about_callback(update, context):
                     InlineKeyboardButton(text="✢ Co-Owner ✢", url="https://t.me/NyaaNeko"),
                     InlineKeyboardButton(text="✢ Main Dev ✢", url="https://t.me/SastaDev"),
                  ],
+                    [
                     InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
                  ]
                 ]
