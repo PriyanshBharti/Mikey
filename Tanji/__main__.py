@@ -374,18 +374,18 @@ def tanji_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="Admins", callback_data="tanji_admin"),
-                    InlineKeyboardButton(text="Notes", callback_data="tanji_notes"),
+                    InlineKeyboardButton(text="✢ Admins ✢", callback_data="tanji_admin"),
+                    InlineKeyboardButton(text="✢ Notes ✢", callback_data="tanji_notes"),
                  ],
                  [
-                    InlineKeyboardButton(text="Support", callback_data="tanji_support"),
-                    InlineKeyboardButton(text="Credits", callback_data="tanji_credit"),
+                    InlineKeyboardButton(text="✢ Support ✢", callback_data="tanji_support"),
+                    InlineKeyboardButton(text="✢ Credits ✢", callback_data="tanji_credit"),
                  ],
                  [
-                    InlineKeyboardButton(text="Owner", url="https://t.me/Darling_Hiro"),
+                    InlineKeyboardButton(text="✢ Owner ✢", url="https://t.me/Darling_Hiro"),
                 ],
                  [
-                    InlineKeyboardButton(text="Go Back", callback_data="tanji_back"),
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_back"),
                  ]
                 ]
             ),
