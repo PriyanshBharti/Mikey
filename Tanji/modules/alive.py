@@ -9,7 +9,7 @@ from Tanji.events import register
 from Tanji import telethn as tbot
 
 
-PHOTO = "https://telegra.ph/file/6dec4385f44fc0af3ae67.mp4"
+PHOTO = "https://telegra.ph/file/dcdbb6365975d066015c7.mp4"
 
 @register(pattern=("/alive"))
 async def awake(event):
@@ -20,5 +20,5 @@ async def awake(event):
   TEXT += f"✯ **Telethon Version :** `{tlhver}` \n\n"
   TEXT += f"✯ **Pyrogram Version :** `{pyrover}` \n\n"
   TEXT += "**Thanks For Adding Me Here ❤️**"
-  BUTTON = [[Button.url("Help", "https://t.me/MikeySanoRobot?start=help"), Button.url("Support", "https://t.me/MikeySanosupport")]]
+  BUTTON = [[Button.url("✢ Help ✢", "https://t.me/Kaneki_Ken_Robot?start=help"), Button.url("✢ Support ✢", "https://t.me/=KanekiSupport")]]
   await tbot.send_file(event.chat_id, PHOTO, caption=TEXT,  buttons=BUTTON)
