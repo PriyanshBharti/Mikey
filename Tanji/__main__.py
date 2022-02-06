@@ -436,7 +436,7 @@ def tanji_about_callback(update, context):
     elif query.data == "tanji_support":
         query.message.edit_text(
             text="*๏ Kaneki Support Chat*"
-            "\nJoin My Support Group/Channel for see or report a problem on Emiko.",
+            "\nJoin My Support Group/Channel for see or report a problem on Kaneki.",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
                 [
@@ -461,7 +461,7 @@ def tanji_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                   InlineKeyboardButton(text="✢ Network ✢", url="https://t.me/NyaaNeko"),
+                   InlineKeyboardButton(text="✢ Network ✢", url="https://t.me/NekoNetwork"),
                    InlineKeyboardButton(text="✢ Owner ✢", url="https://t.me/Darling_Hiro"),
                  ],
                  [
