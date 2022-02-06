@@ -255,20 +255,20 @@ def info(update: Update, context: CallbackContext):
 
     text = (
         f"「<b> Appraisal results:</b> 」\n"
-        f"☯︎ ID: <code>{user.id}</code>\n"
-        f"☯︎ First Name: {html.escape(user.first_name)}"
+        f"✧ ID: <code>{user.id}</code>\n"
+        f"✧ First Name: {html.escape(user.first_name)}"
     )
 
     if user.last_name:
-        text += f"\n☯︎ Last Name: {html.escape(user.last_name)}"
+        text += f"\n✧ Last Name: {html.escape(user.last_name)}"
 
     if user.username:
-        text += f"\n☯︎ Username: @{html.escape(user.username)}"
+        text += f"\n✧ Username: @{html.escape(user.username)}"
 
-    text += f"\n☯︎ Userlink: {mention_html(user.id, 'link')}"
+    text += f"\n✧ Userlink: {mention_html(user.id, 'link')}"
 
     if chat.type != "private" and user_id != bot.id:
-        _stext = "\n☯︎ Presence: <code>{}</code>"
+        _stext = "\n✧ Presence: <code>{}</code>"
 
         afk_st = is_afk(user.id)
         if afk_st:
@@ -316,7 +316,7 @@ def info(update: Update, context: CallbackContext):
         text += "\n\nBreathing style of this slayer is 'Beast'."
         disaster_level_present = True
     elif user.id == 5069705982:
-         text += "\n\nOwner Of A Bot.Bot Name Inspired From 'Demon Slayer'."
+         text += "\n\nOwner Of A Bot.Bot Name Inspired From 'Tokyo Ghoul'."
          disaster_level_present = True
 
     try:
@@ -353,9 +353,9 @@ def info(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                "Health", url="https://t.me/Tanjirou_updates/28"),
+                                "✢ Health ✢", url="https://t.me/Tanjirou_updates/28"),
                             InlineKeyboardButton(
-                                "Disaster", url="https://t.me/Tanjirou_updates/10")
+                                "✢ Disaster ✢", url="https://t.me/Tanjirou_updates/10")
                         ],
                     ]
                 ),
