@@ -418,7 +418,7 @@ def tanji_about_callback(update, context):
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Go Back", callback_data="tanji_")]]
+                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")]]
             ),
         )
 
