@@ -92,12 +92,12 @@ PM_START_TEXT = """
 
 buttons = [
     [
-        InlineKeyboardButton(text="About Tanjirou Kamado", callback_data="tanji_"),
+        InlineKeyboardButton(text="✢ About Ken Kaneki ✢", callback_data="tanji_"),
     ],
     [
-        InlineKeyboardButton(text="Get Help", callback_data="help_back"),
+        InlineKeyboardButton(text="✢ Get Help ✢", callback_data="help_back"),
         InlineKeyboardButton(
-            text="Try inline!​​", switch_inline_query_current_chat=""
+            text="✢ Try inline! ✢​​", switch_inline_query_current_chat=""
         ),
     ],
     [
