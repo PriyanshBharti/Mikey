@@ -461,12 +461,12 @@ def tanji_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                   InlineKeyboardButton(text="✢ Network ✢", url="https://t.me/NekoNetwork"),
-                   InlineKeyboardButton(text="✢ Owner ✢", url="https://t.me/Darling_Hiro"),
+                   InlineKeyboardButton(text="✢ Network ✢", url="https://t.me/NyaaNetwork"),
+                   InlineKeyboardButton(text="✢ Devs ✢", url="https://t.me/SastaDev"),
                  ],
                  [
+                    InlineKeyboardButton(text="✢ Owner ✢", url="https://t.me/Darling_Hiro"),
                     InlineKeyboardButton(text="✢ Co-Owner ✢", url="https://t.me/NyaaNeko"),
-                    InlineKeyboardButton(text="✢ Main Dev ✢", url="https://t.me/SastaDev"),
                  ],
                     [
                     InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
