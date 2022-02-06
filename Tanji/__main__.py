@@ -102,7 +102,7 @@ buttons = [
     ],
     [
         InlineKeyboardButton(
-            text="Add Tanjirou To Your Group✨", url="t.me/Tanji_kamado_bot?startgroup=new"),
+            text="✢ Add Kaneki To Your Group ✢", url="t.me/Kaneki_Ken_Robot?startgroup=new"),
     ],
 ]
 
@@ -110,10 +110,10 @@ buttons = [
 HELP_STRINGS = """
 Click on the button bellow to get description about specifics command."""
 
-TANJI_IMG = "https://telegra.ph/file/27b18f6de63ed185376e6.jpg"
+TANJI_IMG = "https://telegra.ph/file/a11ca8e25b55d54364f1f.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
- You can support the project by contacting @Lynncept_iz_here \
+ You can support the project by contacting @Darling_Hiro \
  Supporting isnt always financial! \
  Those who cannot provide monetary support are welcome to help us develop the bot at ."""
 
