@@ -4,7 +4,7 @@ from pyrogram.types import Message
 from Tanji import pbot as app
 from Tanji.utils.errors import capture_err
 
-__mod_name__ = "Webshot​"
+__mod_name__ = "✢ Webshot ✢​"
 
 
 @app.on_message(filters.command("webss"))
