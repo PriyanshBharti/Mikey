@@ -3,7 +3,7 @@ import re
 import os
 import html
 import requests
-from . import sql.chatbot_sql as sql
+from .sql import chatbot_sql as sql
 
 from time import sleep
 from telegram import ParseMode
