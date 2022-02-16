@@ -41,31 +41,31 @@ from Tanji.utils.pastebin import paste
 MESSAGE_DUMP_CHAT = EVENT_LOGS
 
 keywords_list = [
-    "ᴀʟɪᴠᴇ",
-    "ɪᴍᴀɢᴇ",
-    "ᴡᴀʟʟ",
-    "ᴛᴍᴅʙ",
-    "ʟʏʀɪᴄs",
-    "ᴇxᴇᴄ",
-    "sᴘᴇᴇᴅᴛᴇsᴛ",
-    "sᴇᴀʀᴄʜ",
-    "ᴘɪɴɢ",
-    "ᴡᴇʙss",
-    "ғᴀᴋᴇɢᴇɴ",
-    "ɢsᴇᴀʀᴄʜ",
-    "ᴘᴀsᴛᴇ",
-    "ᴛʀ",
-    "ᴜᴅ",
-    "ʏᴏᴜᴛᴜʙᴇ",
-    "ɪɴғᴏ",
-    "ɢᴏᴏɢʟᴇ",
-    "ɢʜ",
-    "ᴛᴏʀʀᴇɴᴛ",
-    "ᴘᴏᴋᴇᴅᴇx",
-    "sᴀᴀᴠɴ",
-    "ᴡɪᴋɪ",
-    "ᴍᴜsɪᴄ",
-    "ʏᴛᴍᴜsɪᴄ",
+    "Aʟɪᴠᴇ",
+    "Iᴍᴀɢᴇ",
+    "Wᴀʟʟ",
+    "Tᴍᴅʙ",
+    "Lʏʀɪᴄs",
+    "Exᴇᴄ",
+    "Sᴘᴇᴇᴅᴛᴇsᴛ",
+    "Sᴇᴀʀᴄʜ",
+    "Pɪɴɢ",
+    "Wᴇʙss",
+    "Fᴀᴋᴇɢᴇɴ",
+    "Gsᴇᴀʀᴄʜ",
+    "Pᴀsᴛᴇ",
+    "Tʀ",
+    "Uᴅ",
+    "Yᴏᴜᴛᴜʙᴇ",
+    "Iɴғᴏ",
+    "Gᴏᴏɢʟᴇ",
+    "Gʜ",
+    "Tᴏʀʀᴇɴᴛ",
+    "Pᴏᴋᴇᴅᴇx",
+    "Sᴀᴀᴠɴ",
+    "Wɪᴋɪ",
+    "Mᴜsɪᴄ",
+    "Yᴛᴍᴜsɪᴄ",
 ]
 
 
@@ -101,7 +101,7 @@ async def inline_help_func(__HELP__):
             input_message_content=InputTextMessageContent(
                 "**__Click A Button To Get Started.__**"
             ),
-            thumb_url="https://telegra.ph/file/3d6c84b329bc3122ac44a.jpg",
+            thumb_url="https://telegra.ph/file/7070434b6aee63852d5ab.jpg",
             reply_markup=buttons,
         ),
     ]
@@ -114,21 +114,21 @@ async def alive_function(answers):
     bot_state = "Dead" if not await app.get_me() else "Alive"
     ubot_state = "Dead" if not await ubot2.get_me() else "Alive"
     buttons.add(
-        InlineKeyboardButton("Main bot", url="https://t.me/Tanji_Kamado_bot"),
+        InlineKeyboardButton("Main bot", url="https://t.me/Kaneki_Ken_Robot"),
         InlineKeyboardButton(
             "Go Inline!", switch_inline_query_current_chat=""
         ),
     )
 
     msg = f"""
-**[Tanjirou Kamado 🌟](https://t.me/Tanji_kamado_bot):**
+**[Ken Kaneki](https://t.me/Kaneki_Ken_Robot):**
 **MainBot:** `{bot_state}`
 **UserBot:** `{ubot_state}`
 **Python:** `{pyver.split()[0]}`
 **Pyrogram:** `{pyrover}`
 **MongoDB:** `{mongover}`
 **Platform:** `{sys.platform}`
-**Profiles:** [BOT](t.me/{BOT_USERNAME}) | [OWNER BOT](t.me/Lynncept_iz_here)
+**Profiles:** [BOT](t.me/{BOT_USERNAME}) | [OWNER](t.me/Darling_Hiro)
 """
     answers.append(
         InlineQueryResultArticle(
