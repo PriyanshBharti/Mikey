@@ -3,7 +3,7 @@ import re
 import os
 import html
 import requests
-import ShinobuRobot.modules.sql.chatbot_sql as sql
+import Tanji.modules.sql.chatbot_sql as sql
 
 from time import sleep
 from telegram import ParseMode
@@ -15,10 +15,10 @@ from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
 from telegram.error import BadRequest, RetryAfter, Unauthorized
 from telegram.utils.helpers import mention_html, mention_markdown, escape_markdown
 
-from ShinobuRobot.modules.helper_funcs.filters import CustomFilters
-from ShinobuRobot.modules.helper_funcs.chat_status import user_admin, user_admin_no_reply
-from ShinobuRobot import dispatcher, updater, SUPPORT_CHAT
-from ShinobuRobot.modules.log_channel import loggable
+from Tanji.modules.helper_funcs.filters import CustomFilters
+from Tanji.modules.helper_funcs.chat_status import user_admin, user_admin_no_reply
+from Tanji import dispatcher, updater, SUPPORT_CHAT
+from Tanji.modules.log_channel import loggable
 
 @user_admin_no_reply
 @loggable
@@ -64,7 +64,7 @@ def kukiadd(update: Update, context: CallbackContext) -> str:
             )
         else:
             update.effective_message.edit_text(
-                "Shinobu Chatbot enable by {}.".format(mention_html(user.id, user.first_name)),
+                "Kaneki Chatbot enable by {}.".format(mention_html(user.id, user.first_name)),
                 parse_mode=ParseMode.HTML,
             )
 
@@ -122,7 +122,7 @@ def chatbot(update: Update, context: CallbackContext):
 
 def list_all_chats(update: Update, context: CallbackContext):
     chats = sql.get_all_kuki_chats()
-    text = "<b>Shinobu Chatbot-Enabled Chats</b>\n"
+    text = "<b>Kaneki Chatbot-Enabled Chats</b>\n"
     for chat in chats:
         try:
             x = context.bot.get_chat(int(*chat))
@@ -135,7 +135,7 @@ def list_all_chats(update: Update, context: CallbackContext):
     update.effective_message.reply_text(text, parse_mode="HTML")
 
 __help__ = """
-Chatbot is using api of Kuki which allows Shinobu to talk and provide a more interactive group chat experience.
+Chatbot is using api of Kuki which allows Kaneki to talk and provide a more interactive group chat experience.
 
 *Admins only Commands*:
   ➢ `/Chatbot`*:* Shows chatbot control panel
