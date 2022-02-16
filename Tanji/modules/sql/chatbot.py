@@ -3,7 +3,7 @@ import re
 import os
 import html
 import requests
-import ShinobuRobot.modules.sql.chatbot_sql as sql
+import Tanji.modules.sql.chatbot_sql as sql
 
 from time import sleep
 from telegram import ParseMode
@@ -15,10 +15,10 @@ from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
 from telegram.error import BadRequest, RetryAfter, Unauthorized
 from telegram.utils.helpers import mention_html, mention_markdown, escape_markdown
 
-from ShinobuRobot.modules.helper_funcs.filters import CustomFilters
-from ShinobuRobot.modules.helper_funcs.chat_status import user_admin, user_admin_no_reply
-from ShinobuRobot import dispatcher, updater, SUPPORT_CHAT
-from ShinobuRobot.modules.log_channel import loggable
+from Tanji.modules.helper_funcs.filters import CustomFilters
+from Tanji.modules.helper_funcs.chat_status import user_admin, user_admin_no_reply
+from Tanji import dispatcher, updater, SUPPORT_CHAT
+from Tanji.modules.log_channel import loggable
 
 @user_admin_no_reply
 @loggable
