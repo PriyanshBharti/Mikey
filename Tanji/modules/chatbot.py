@@ -141,7 +141,7 @@ Chatbot is using api of Kuki which allows Kaneki to talk and provide a more inte
   ➢ `/Chatbot`*:* Shows chatbot control panel
 """
 
-__mod_name__ = "ChatBot"
+__mod_name__ = "✢ ChatBot ✢"
 
 
 CHATBOTK_HANDLER = CommandHandler("chatbot", kuki, run_async=True)
