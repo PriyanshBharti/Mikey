@@ -1,5 +1,5 @@
-from AsunaRobot.modules.helper_funcs.telethn import IMMUNE_USERS, telethn
-from AsunaRobot import DRAGONS
+from Tanji.modules.helper_funcs.telethn import IMMUNE_USERS, telethn
+from Tanji import DRAGONS
 from telethon.tl.types import ChannelParticipantsAdmins
 
 
