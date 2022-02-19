@@ -298,25 +298,25 @@ def info(update: Update, context: CallbackContext):
     disaster_level_present = False
 
     if user.id == OWNER_ID:
-        text += "\n\nBreathing style of this slayer is 'Sun'."
+        text += "\n\nThis is Rarely found Ghoul Hence 'One Eyed Ghoul'."
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nBreathing style of this slayer is 'Flame'."
+        text += "\n\nThis is one of the Superior 'Ghouls'."
         disaster_level_present = True
     elif user.id in DRAGONS:
-        text += "\n\nBreathing style of this slayer is 'Thunder'."
+        text += "\n\nThis is one of the 'Predators'."
         disaster_level_present = True
     elif user.id in DEMONS:
-        text += "\n\nBreathing style of this slayer is 'Wind'."
+        text += "\n\nThis is one of the 'Beasts'."
         disaster_level_present = True
     elif user.id in TIGERS:
-        text += "\n\nBreathing style of this slayer is 'Water'."
+        text += "\n\nThis is one of the 'Demons'."
         disaster_level_present = True
     elif user.id in WOLVES:
-        text += "\n\nBreathing style of this slayer is 'Beast'."
+        text += "\n\nJust An Normal 'Human'."
         disaster_level_present = True
-    elif user.id == 5069705982:
-         text += "\n\nOwner Of A Bot.Bot Name Inspired From 'Demon Slayer'."
+    elif user.id ==  2058199868:
+         text += "\n\nOwner Of A the Bot Inspired From 'Tokyo Ghouls'."
          disaster_level_present = True
 
     try:
