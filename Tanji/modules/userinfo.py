@@ -332,9 +332,6 @@ def info(update: Update, context: CallbackContext):
     if user.id == OWNER_ID:
         text += "\n\nThis Person Is Owner Of {BOT_NAME}"
         disaster_level_present = True
-    elif user.id == CO_OWNER_ID:
-         text += f"\n\nThis Person is Owner Of {BOT_NAME}"
-         disaster_level_present = True
     elif user.id in DEV_USERS:
         text += "\n\nThis person is one of the 'Sensei' of Shinobu."
         disaster_level_present = True
