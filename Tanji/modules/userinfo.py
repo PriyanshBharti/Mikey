@@ -29,7 +29,6 @@ from Tanji import (
     sw,
     StartTime,
     SUPPORT_CHAT,
-    BOT_NAME,
     BOT_USERNAME,
 )
 from Tanji.__main__ import STATS, TOKEN, USER_INFO
