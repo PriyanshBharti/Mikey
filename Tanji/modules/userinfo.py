@@ -21,7 +21,6 @@ from telegram.utils.helpers import escape_markdown, mention_html
 from Tanji import (
     DEV_USERS,
     OWNER_ID,
-    CO_OWNER_ID,
     DRAGONS,
     DEMONS,
     TIGERS,
