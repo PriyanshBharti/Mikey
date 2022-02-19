@@ -461,7 +461,7 @@ def tanji_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                   InlineKeyboardButton(text="✢ Network ✢", url="https://t.me/NyaaNetwork"),
+                   InlineKeyboardButton(text="✢ Network ✢", url="https://t.me/TomanNetwork"),
                    InlineKeyboardButton(text="✢ Devs ✢", url="https://t.me/SastaDev"),
                  ],
                  [
