@@ -914,4 +914,4 @@ Commands :
  - /dva: Sends Random D.VA source Images.
 """
 
-__mod_name__ = "Lewd"
+__mod_name__ = "✢ Lewd ✢"
