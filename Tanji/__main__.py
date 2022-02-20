@@ -60,26 +60,23 @@ from telegram.utils.helpers import escape_markdown
 from pyrogram import Client, idle
 from telethon import Button, events
 
-@telethn.on(events.NewMessage(pattern="/alive"))
-async def awake(event):
-  HINATA = event.sender.first_name
-  HINATA = "**♡ I,m  Hinata Hyuga** \n\n"
-  HINATA += "**♡ I'm Working With Lighting Speed**\n\n"
-  HINATA += "**♡ Cutiepii: LATEST Version**\n\n"
-  HINATA += "**♡ My Creator:** [Meet](t.me/Madara_625)\n\n"
-  HINATA += "**♡ python-Telegram-Bot: 13.6**\n\n"
-  HINATA_BUTTON = [
-      [
-          Button.url("🚑 Support", f"https://t.me/{SUPPORT_CHAT}"),
-          Button.url("📢 Updates", "https://t.me/HinataUpdates")
-      ]
-  ]
-  await telethn.send_file(
-      event.chat_id,
-      HINATA_PHOTO,
-      caption = HINATA,
-      buttons = HINATA_BUTTON,
-  )
+def alive(update: Update, context: CallbackContext):
+    uptime = get_readable_time((time.time() - StartTime))
+    first_name = update.effective_user.first_name
+    USER = escape_markdown(first_name)
+    SHINOBU = f"👋 *Hey There* {USER} \n\n"
+    SHINOBU += f"✨ *I'm {BOT_NAME}*\n🍀 *I'm Working Fine as always* \n\n"
+    SHINOBU += f"👑* My Creators:* [Tamim](https://t.me/TamimZaman) & [Lelouch](https://t.me/Im_Lelouch1)\n"
+    SHINOBU += f"*🧑‍💻 My Devs :* [Devs of {BOT_NAME}](https://t.me/Shinobu_Update_Channel/34)\n\n"
+    SHINOBU += "*🧚‍♂️ Bot version:* [Shinobu 2.6](https://t.me/Shinobu_Update_Channel/91)\n"
+    SHINOBU += "*🐍 Python-Telegram-Bot:*" + str(ptbver) + "\n"
+    SHINOBU += f"*⚡ Uptime:* {uptime}"
+    update.effective_message.reply_animation(
+      ALIVE_PIC,
+      caption=SHINOBU,
+      reply_markup=InlineKeyboardMarkup(group_buttons),
+      parse_mode=ParseMode.MARKDOWN,
+)
 
     
 def get_readable_time(seconds: int) -> str:
