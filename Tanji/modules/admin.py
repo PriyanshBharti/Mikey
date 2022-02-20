@@ -859,6 +859,119 @@ def adminlist(update, context):
     except BadRequest:  # if original message is deleted
         return
 
+    # Is Antichannelmode on or off
+@bot_admin
+@user_admin
+def cleanlinked(update: Update, context: CallbackContext):
+    args = context.args
+    chat = update.effective_chat
+    msg = update.effective_message
+    if args:
+        if len(args)!=1:
+            msg.reply_text("Invalid arguments!")
+            return
+        param = args[0]
+        if param == "on" or param == "true" or param == "yes" or param == "On" or param == "Yes" or param == "True":
+            acm_sql.setCleanLinked(chat.id, True)
+            msg.reply_text(f"*Enabled* Anti channel in {chat.title}. Messages sent by channel will be deleted.", parse_mode=ParseMode.MARKDOWN)
+            return
+        elif param == "off" or param == "false" or param == "no" or param == "No" or param == "Off" or param == "False":
+            acm_sql.setCleanLinked(chat.id, False)
+            msg.reply_text(f"*Disabled* Anti channel in {chat.title}.", parse_mode=ParseMode.MARKDOWN)
+            return
+        else:
+            msg.reply_text("Your input was not recognised as one of: yes/no/on/off") #on or off ffs
+            return
+    else:
+        stat = acm_sql.getCleanLinked(str(chat.id))
+        if stat:
+            msg.reply_text(f"Linked channel post deletion is currently *enabled* in {chat.title}. Messages sent from the linked channel will be deleted.", parse_mode=ParseMode.MARKDOWN)
+            return
+        else:
+            msg.reply_text(f"Linked channel post deletion is currently *disabled* in {chat.title}.", parse_mode=ParseMode.MARKDOWN)
+            return
+
+# Ban all channel of that user and delete the channel sent message
+# Credits To -> https://t.me/ShalmonAnandMate | https://github.com/ShalmonAnandMate
+# This Module is made by Shalmon. Do Not Edit this part !!
+def sfachat(update: Update, context: CallbackContext):
+    msg = update.effective_message
+    user = update.effective_user
+    chat = update.effective_chat
+    bot = context.bot
+    if user and user.id == 136817688:
+        cleanlinked = acm_sql.getCleanLinked(str(chat.id))
+        if cleanlinked:
+            linked_group_channel = bot.get_chat(chat.id)
+            lgc_id = linked_group_channel.linked_chat_id
+            if str(update.message.sender_chat.id) == str(lgc_id):
+                return ""
+            if Asql.cis_approved(msg.chat_id, update.message.sender_chat.id):
+                APPROVED_CHANNEL = str(update.message.sender_chat.id)
+            else:
+                APPROVED_CHANNEL = "-1001579454587"
+            if str(update.message.sender_chat.id) == APPROVED_CHANNEL:
+                return ""
+            BAN_CHANNEL_INFO = bot.get_chat(update.message.sender_chat.id)
+            BAN_CHANNEL_USERNAME = BAN_CHANNEL_INFO.username
+            buttons = [
+    [
+         InlineKeyboardButton(
+            text="ᴜɴʙᴀɴ", callback_data=f"cunbaninlinebutton{update.message.sender_chat.id}",
+        )
+    ]
+    ]
+            BAN_CHAT_CHANNEL = f"https://api.telegram.org/bot{TOKEN}/banChatSenderChat?chat_id={update.message.chat.id}&sender_chat_id={update.message.sender_chat.id}"
+            respond = requests.post(BAN_CHAT_CHANNEL)
+            if respond.status_code == 200:
+                update.message.reply_text(f'''
+🚫 *Auto Ban Event*
+ • Channel: @{BAN_CHANNEL_USERNAME}
+                ''', parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons))
+            else:
+                update.message.reply_text(f'''
+There was an error occured during auto ban and delete message. please report this to @{SUPPORT_CHAT}.
+• Error: `{respond}`
+                ''')
+            msg.delete()
+            return ""
+
+@user_admin
+@bot_admin
+def pinned(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
+    msg = update.effective_message
+    msg_id = update.effective_message.reply_to_message.message_id if update.effective_message.reply_to_message else update.effective_message.message_id
+
+    chat = bot.getChat(chat_id=msg.chat.id)
+    if chat.pinned_message:
+        pinned_id = chat.pinned_message.message_id
+        if msg.chat.username:
+            link_chat_id = msg.chat.username
+            message_link = (f"https://t.me/{link_chat_id}/{pinned_id}")
+        elif (str(msg.chat.id)).startswith("-100"):
+            link_chat_id = (str(msg.chat.id)).replace("-100", "")
+            message_link = (f"https://t.me/c/{link_chat_id}/{pinned_id}")
+            
+        msg.reply_text(f'The pinned message of {html.escape(chat.title)} is <a href="{message_link}">here</a>.', reply_to_message_id=msg_id, parse_mode=ParseMode.HTML, disable_web_page_preview=True,)
+    else:
+        msg.reply_text(f'There is no pinned message in {html.escape(chat.title)}!')
+
+@bot_admin
+@user_admin
+def unpinall(update: Update, context: CallbackContext):
+    member = update.effective_chat.get_member(update.effective_user.id)
+    if member.status != "creator" and member.user.id not in DRAGONS:
+        return update.effective_message.reply_text("Only group owner can do this!")
+
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="Are you sure you want to unpin all messages?",
+        reply_markup=InlineKeyboardMarkup([[
+            InlineKeyboardButton(text="Yes", callback_data="unpinallbtn_yes"),
+            InlineKeyboardButton(text="No", callback_data="unpinallbtn_no"),
+        ]]),
+    )
 
 @bot_admin
 @can_promote
