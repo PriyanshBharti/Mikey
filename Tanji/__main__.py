@@ -87,34 +87,15 @@ group_buttons = [
     ],
 ]
 
+HELP_STRINGS = """
+Click on the button bellow to get description about specifics command."""
 
-
-buttons = [
-    [
-         InlineKeyboardButton(
-            text="About Me", callback_data="aboutmanu_",
-        ),
-    ],
-    [
-        InlineKeyboardButton(
-              text="📚 Commands", callback_data="help_back"),
-        InlineKeyboardButton(
-            text="Updates 📡",url="https://t.me/Shinobu_Update_Channel"),
-    
-    ],
-    [
-        InlineKeyboardButton(
-            text="➕ ADD SHINOBU TO YOUR GROUP ➕",url="t.me/Shinobu_robot?startgroup=true"),
-    ],
-]
-
-HELP_STRINGS = f"""Hey there... I'm {BOT_NAME} 🧚‍♂️
-I have lots of features like AI Chatbot, Anime, Music, Notes, Filters, Fun and many others useful commands!
-Click on the buttons below to get documentation about specific modules.."""
+TANJI_IMG = "https://telegra.ph/file/a11ca8e25b55d54364f1f.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
- You can support the project by Promoting Our Bot or by contacting @TamimZaman or @Im_Lelouch1
- Supporting isnt always financial!."""
+ You can support the project by contacting @Darling_Hiro \
+ Supporting isnt always financial! \
+ Those who cannot provide monetary support are welcome to help us develop the bot at ."""
 
 IMPORTED = {}
 MIGRATEABLE = []
