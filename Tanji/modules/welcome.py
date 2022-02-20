@@ -29,6 +29,7 @@ from Tanji.modules.helper_funcs.string_handling import (
 )
 from Tanji.modules.log_channel import loggable
 from Tanji.modules.sql.global_bans_sql import is_user_gbanned
+
 from telegram import (
     ChatPermissions,
     InlineKeyboardButton,
@@ -160,7 +161,7 @@ def new_member(update: Update, context: CallbackContext):
 
     for new_mem in new_members:
 
-        if new_mem.id == bot.id and not ShinobuRobot.ALLOW_CHATS:
+        if new_mem.id == bot.id and not SaitamaRobot.ALLOW_CHATS:
             with suppress(BadRequest):
                 update.effective_message.reply_text(
                     f"Groups are disabled for {bot.first_name}, I'm outta here."
@@ -198,7 +199,7 @@ def new_member(update: Update, context: CallbackContext):
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
-                    "Be cool, 🇵 🇷 🇴 just joined the chat.",
+                    "OwO, My Naruto Just Joined.",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -211,7 +212,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Devs
             if new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "Be cool! One of the Shinobu Dev/Sensei just joined.",
+                    "Be cool! One of the Honourable Hokage just appeared",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -224,7 +225,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Sudos
             if new_mem.id in DRAGONS:
                 update.effective_message.reply_text(
-                    "Whoa! A Hashira just joined! Stay Alert Demons!",
+                    "Whoa! A Jonin disaster just joined! Stay Alert!",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -237,7 +238,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Support
             if new_mem.id in DEMONS:
                 update.effective_message.reply_text(
-                    "Oh yeah, one of the Kinoe just joined!",
+                    "Huh! Someone with a Chunin disaster level just joined!",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -250,7 +251,20 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Whitelisted
             if new_mem.id in TIGERS:
                 update.effective_message.reply_text(
-                    "Someone with Mizunoto disaster just joined the chat!",
+                    "Roar! A Genin disaster just joined!",
+                    reply_to_message_id=reply,
+                )
+                welcome_log = (
+                    f"{html.escape(chat.title)}\n"
+                    f"#USER_JOINED\n"
+                    f"I can see with my byakugan you are Gennin user"
+                )
+                continue
+
+            # Welcome Tigers
+            if new_mem.id in WOLVES:
+                update.effective_message.reply_text(
+                    "Awoo! A Wolf disaster just joined!",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -262,19 +276,35 @@ def new_member(update: Update, context: CallbackContext):
 
             # Welcome yourself
             if new_mem.id == bot.id:
-                bot.send_message(
+                creator = None
+                for x in bot.bot.get_chat_administrators(update.effective_chat.id):
+                    if x.status == "creator":
+                        creator = x.user
+                        break
+                if creator:
+                    bot.send_message(
+                        JOIN_LOGGER,
+                        "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>\n<b>Creator:</b> <code>{}</code>".format(
+                            html.escape(chat.title),
+                            chat.id,
+                            html.escape(creator),
+                        ),
+                        parse_mode=ParseMode.HTML,
+                    )
+                else:
+                    bot.send_message(
                         JOIN_LOGGER,
                         "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>".format(
                             html.escape(chat.title),
                             chat.id,
                         ),
                         parse_mode=ParseMode.HTML,
-                      )
-                update.effective_message.reply_text("Hey there thanks for adding me, check my help menu to know my features",
-                reply_to_message_id=reply
+                    )
+                update.effective_message.reply_text(
+                    "Watashi ga kita!",
+                    reply_to_message_id=reply,
                 )
                 continue
-
             buttons = sql.get_welc_buttons(chat.id)
             keyb = build_keyboard(buttons)
 
@@ -295,7 +325,7 @@ def new_member(update: Update, context: CallbackContext):
                     fullname = escape_markdown(f"{first_name} {new_mem.last_name}")
                 else:
                     fullname = escape_markdown(first_name)
-                count = chat.get_member_count()
+                count = chat.get_members_count()
                 mention = mention_markdown(new_mem.id, escape_markdown(first_name))
                 if new_mem.username:
                     username = "@" + escape_markdown(new_mem.username)
@@ -541,7 +571,7 @@ def left_member(update: Update, context: CallbackContext):
             # Give the owner a special goodbye
             if left_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
-                    "Oh no !🇵 🇷 🇴 just left..",
+                    "Oi! Naruto! Why leaving me alone..",
                     reply_to_message_id=reply,
                 )
                 return
@@ -549,7 +579,7 @@ def left_member(update: Update, context: CallbackContext):
             # Give the devs a special goodbye
             if left_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "See you later at the Shinobu Support!",
+                    "See you later at the Hokage Era!",
                     reply_to_message_id=reply,
                 )
                 return
@@ -571,7 +601,7 @@ def left_member(update: Update, context: CallbackContext):
                     fullname = escape_markdown(f"{first_name} {left_mem.last_name}")
                 else:
                     fullname = escape_markdown(first_name)
-                count = chat.get_member_count()
+                count = chat.get_members_count()
                 mention = mention_markdown(left_mem.id, first_name)
                 if left_mem.username:
                     username = "@" + escape_markdown(left_mem.username)
@@ -1095,7 +1125,6 @@ __help__ = """
  • `/cleanservice <on/off`*:* deletes telegrams welcome/left service messages.
  *Example:*
 user joined chat, user left chat.
-
 *Welcome markdown:*
  • `/welcomehelp`*:* view more formatting information for custom welcome/goodbye messages.
 """
