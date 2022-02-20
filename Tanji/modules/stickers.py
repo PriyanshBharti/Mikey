@@ -491,7 +491,7 @@ def makepack_internal(
 
 
 __help__ = """
-Help menu for stickers tools!
+Help menu for stickers tools
 
 ❂ /stickerid: reply to a sticker to me to tell you its file ID.
 ❂ /getsticker: reply to a sticker to me to upload its raw PNG file.
