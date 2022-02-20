@@ -4,9 +4,9 @@ import re
 import time
 from functools import partial
 from contextlib import suppress
-import ShinobuRobot
-import ShinobuRobot.modules.sql.welcome_sql as sql
-from ShinobuRobot import (
+import Tanji
+import Tanji.modules.sql.welcome_sql as sql
+from Tanji import (
     DEV_USERS,
     LOGGER,
     OWNER_ID,
