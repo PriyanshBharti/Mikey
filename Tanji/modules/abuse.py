@@ -44,4 +44,4 @@ __mod_name__ = "Abuse"
 
 DARK_HANDLER = DisableAbleCommandHandler("dark", dark)
 
-dispatcher.add_handler(DARK_HANDLER
+dispatcher.add_handler(DARK_HANDLER)
