@@ -109,7 +109,7 @@ HELP_STRINGS = """
 `Click on the buttons below to get documentation about specific modules..`"""
 
 
-ASUNA_IMG = "https://telegra.ph/file/ce5a434e3152f6a455341.jpg"
+TANJI_IMG = "https://telegra.ph/file/27b18f6de63ed185376e6.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
  You can support the project via [Paypal](#) or by contacting @itz_me_crazyboy\
@@ -127,7 +127,7 @@ CHAT_SETTINGS = {}
 USER_SETTINGS = {}
 
 for module_name in ALL_MODULES:
-    imported_module = importlib.import_module("AsunaRobot.modules." + module_name)
+    imported_module = importlib.import_module("Tanji.modules." + module_name)
     if not hasattr(imported_module, "__mod_name__"):
         imported_module.__mod_name__ = imported_module.__name__
 
