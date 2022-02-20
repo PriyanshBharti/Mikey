@@ -491,8 +491,6 @@ def makepack_internal(
 
 
 __help__ = """
-Here is the help for the ✢ Stickers ✢ module:
-
 Help menu for stickers tools
 
 ❂ /stickerid: reply to a sticker to me to tell you its file ID.
