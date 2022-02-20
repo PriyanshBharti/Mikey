@@ -82,7 +82,7 @@ group_buttons = [
         InlineKeyboardButton(
             text="🚑 Support", url=f"https://t.me/{SUPPORT_CHAT}"),
         InlineKeyboardButton(
-            text="📣 Updates", url="https://t.me/Shinobu_Update_Channel"
+            text="📣 Updates", url="https://t.me/KanekiUpdates"
         ),
     ],
 ]
@@ -176,36 +176,86 @@ def start(update: Update, context: CallbackContext):
                     update.effective_chat.id,
                     HELPABLE[mod].__help__,
                     InlineKeyboardMarkup(
-                        [[InlineKeyboardButton(text="🔙 Back", callback_data="help_back")]]
+                        [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="help_back")]]
                     ),
                 )
-
-            elif args[0].lower().startswith("stngs_"):
-                match = re.match("stngs_(.*)", args[0].lower())
-                chat = dispatcher.bot.getChat(match.group(1))
-
-                if is_user_admin(chat, update.effective_user.id):
-                    send_settings(match.group(1), update.effective_user.id, False)
-                else:
-                    send_settings(match.group(1), update.effective_user.id, True)
-
-            elif args[0][1:].isdigit() and "rules" in IMPORTED:
-                IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
-
-        else:
-            update.effective_message.reply_text(
-                PM_START_TEXT,
-                reply_markup=InlineKeyboardMarkup(buttons),
-                parse_mode=ParseMode.MARKDOWN,
-                timeout=60,
-            )
-    else:
-        update.effective_message.reply_animation(
-            ALIVE_PIC, caption= "<b>Ara Ara!!!\nI'm Awake since</b>: <code>{}</code>".format(
-                uptime
-            ),
-            reply_markup=InlineKeyboardMarkup(group_buttons),
+    elif query.data == "tanji_notes":
+        query.message.edit_text(
+            text=f"<b>๏ Setting up notes</b>"
+            f"\nYou can save message/media/audio or anything as notes"
+            f"\nto get a note simply use # at the beginning of a word"
+            f"\n\nYou can also set buttons for notes and filters (refer help menu)",
             parse_mode=ParseMode.HTML,
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")]]
+            ),
+        )
+    elif query.data == "tanji_support":
+        query.message.edit_text(
+            text="*๏ Kaneki Support Chat*"
+            "\nJoin My Support Group/Channel for see or report a problem on Kaneki.",
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                 [
+                    InlineKeyboardButton(text="✢ Support ✢", url="t.me/KanekiSupport"),
+                    InlineKeyboardButton(text="✢ Updates ✢", url="https://t.me/KanekiUpdates"),
+                 ],
+                 [
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
+                 
+                 ]
+                ]
+            ),
+        )
+
+
+    elif query.data == "tanji_credit":
+        query.message.edit_text(
+            text=f"๏ Sponsor Groups and Special members\n"
+            "\nHere are some groups and members.",
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                 [
+                   InlineKeyboardButton(text="✢ Network ✢", url="https://t.me/TomanNetwork"),
+                   InlineKeyboardButton(text="✢ Devs ✢", url="https://t.me/SastaDev"),
+                 ],
+                 [
+                    InlineKeyboardButton(text="✢ Owner ✢", url="https://t.me/Darling_Hiro"),
+                    InlineKeyboardButton(text="✢ Co-Owner ✢", url="https://t.me/NyaaNeko"),
+                 ],
+                    [
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
+                 ]
+                ]
+            ),
+        )
+
+def Source_about_callback(update, context):
+    query = update.callback_query
+    if query.data == "source_":
+        query.message.edit_text(
+            text="๏›› This advance command for Musicplayer."
+            "\n\n๏ Command for admins only."
+            "\n • `/reload` - For refreshing the adminlist."
+            "\n • `/pause` - To pause the playback."
+            "\n • `/resume` - To resuming the playback You've paused."
+            "\n • `/skip` - To skipping the player."
+            "\n • `/end` - For end the playback."
+            "\n • `/musicplayer <on/off>` - Toggle for turn ON or turn OFF the musicplayer."
+            "\n\n๏ Command for all members."
+            "\n • `/play` <query /reply audio> - Playing music via YouTube."
+            "\n • `/playlist` - To playing a playlist of groups or your personal playlist",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                 [
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")
+                 ]
+                ]
+            ),
         )
 
 def alive(update: Update, context: CallbackContext):
