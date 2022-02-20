@@ -37,7 +37,7 @@ def dark(bot: Bot, update: Update):
 
 
 __help__ = """
-- /dark  🤬.
+❂ /dark 🤬.
 """
 
 __mod_name__ = "✢ Abuse ✢"
