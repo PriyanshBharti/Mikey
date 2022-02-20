@@ -6,12 +6,12 @@ import time
 import re
 import sys
 import traceback
-import AsunaRobot.modules.sql.users_sql as sql
+import Tanji.modules.sql.users_sql as sql
 
 
 from sys import argv
 from typing import Optional
-from AsunaRobot import (
+from Tanji import (
     ALLOW_EXCL,
     CERT_PATH,
     DONATION_LINK,
@@ -27,19 +27,19 @@ from AsunaRobot import (
     EVENT_LOGS,
     dispatcher,
     StartTime,
-    telethn,
+    telethn,Tanji
     updater,
     pbot,
     )
 
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
-from AsunaRobot.events import register
-from AsunaRobot.modules import ALL_MODULES
-from AsunaRobot.modules.helper_funcs.chat_status import is_user_admin
-from AsunaRobot.modules.helper_funcs.alternate import typing_action
-from AsunaRobot.modules.helper_funcs.misc import paginate_modules
-from AsunaRobot.modules.disable import DisableAbleCommandHandler
+from Tanji.events import register
+from Tanji.modules import ALL_MODULES
+from Tanji.modules.helper_funcs.chat_status import is_user_admin
+from Tanji.modules.helper_funcs.alternate import typing_action
+from Tanji.modules.helper_funcs.misc import paginate_modules
+from Tanji.modules.disable import DisableAbleCommandHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import (
     BadRequest,
@@ -64,13 +64,13 @@ from telethon import Button, events
 
 @telethn.on(events.NewMessage(pattern="/alive"))
 async def awake(event):
-  HINATA = event.sender.first_name
-  HINATA = "**♡ I,m  Hinata Hyuga** \n\n"
-  HINATA += "**♡ I'm Working With Lighting Speed**\n\n"
-  HINATA += "**♡ Cutiepii: LATEST Version**\n\n"
-  HINATA += "**♡ My Creator:** [Meet](t.me/Madara_625)\n\n"
-  HINATA += "**♡ python-Telegram-Bot: 13.6**\n\n"
-  HINATA_BUTTON = [
+  TANJI = event.sender.first_name
+  TANJI = "**♡ I,m  Hinata Hyuga** \n\n"
+  TANJI += "**♡ I'm Working With Lighting Speed**\n\n"
+  TANJI += "**♡ Kaneki: LATEST Version**\n\n"
+  TANJI += "**♡ My Creator:** [Meet](t.me/Madara_625)\n\n"
+  TANJI += "**♡ python-Telegram-Bot: 13.6**\n\n"
+  TANJI_BUTTON = [
       [
           Button.url("🚑 Support", f"https://t.me/{SUPPORT_CHAT}"),
           Button.url("📢 Updates", "https://t.me/HinataUpdates")
@@ -174,7 +174,7 @@ CHAT_SETTINGS = {}
 USER_SETTINGS = {}
 
 for module_name in ALL_MODULES:
-    imported_module = importlib.import_module("AsunaRobot.modules." + module_name)
+    imported_module = importlib.import_module("Tanji.modules." + module_name)
     if not hasattr(imported_module, "__mod_name__"):
         imported_module.__mod_name__ = imported_module.__name__
 
