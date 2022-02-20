@@ -89,36 +89,36 @@ def gban(update: Update, context: CallbackContext):
 
     if int(user_id) in DEV_USERS:
         message.reply_text(
-            "That user is part of the Association\nI can't act against our own.",
+            "That user is part of the Demonslayercorps\nI can't act against our own.",
         )
         return
 
     if int(user_id) in DRAGONS:
         message.reply_text(
-            "I spy, with my little eye... a disaster! Why are you guys turning on each other?",
+            "I spy, with my little eye... a Thunder Breather! Why are you guys turning on each other?",
         )
         return
 
     if int(user_id) in DEMONS:
         message.reply_text(
-            "OOOH someone's trying to gban a Demon Disaster! *grabs popcorn*",
+            "OOOH someone's trying to slay a wind breather! *grabs popcorn*",
         )
         return
 
     if int(user_id) in TIGERS:
-        message.reply_text("That's a Tiger! They cannot be banned!")
+        message.reply_text("That's a water breather ! They cannot be slayed!")
         return
 
     if int(user_id) in WOLVES:
-        message.reply_text("That's a Wolf! They cannot be banned!")
+        message.reply_text("That's a beast breather! They cannot be slayed!")
         return
 
     if user_id == bot.id:
-        message.reply_text("You uhh...want me to punch myself?")
+        message.reply_text("You uhh...want me to slay myself?")
         return
 
     if user_id in [777000, 1087968824]:
-        message.reply_text("Fool! You can't attack Telegram's native tech!")
+        message.reply_text("baka!! You can't attack Telegram's native tech!")
         return
 
     try:
@@ -137,7 +137,7 @@ def gban(update: Update, context: CallbackContext):
 
         if not reason:
             message.reply_text(
-                "This user is already gbanned; I'd change the reason, but you haven't given me one...",
+                "This user is already slayed; I'd change the reason, but you haven't given me one...",
             )
             return
 
@@ -148,7 +148,7 @@ def gban(update: Update, context: CallbackContext):
         )
         if old_reason:
             message.reply_text(
-                "This user is already gbanned, for the following reason:\n"
+                "This user is already slayed, for the following reason:\n"
                 "<code>{}</code>\n"
                 "I've gone and updated it with your new reason!".format(
                     html.escape(old_reason),
@@ -158,7 +158,7 @@ def gban(update: Update, context: CallbackContext):
 
         else:
             message.reply_text(
-                "This user is already gbanned, but had no reason set; I've gone and updated it!",
+                "This user is already slayed,but had no reason set; I've gone and updated it!",
             )
 
         return
@@ -175,18 +175,20 @@ def gban(update: Update, context: CallbackContext):
         chat_origin = "<b>{}</b>\n".format(chat.id)
 
     log_message = (
-        f"#GBANNED\n"
+        f"#SLAYED\n"
         f"<b>Originated from:</b> <code>{chat_origin}</code>\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>Banned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
-        f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n"
+        f"<b>Slayed User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
+        f"<b>Slayed User ID:</b> <code>{user_chat.id}</code>\n"
         f"<b>Event Stamp:</b> <code>{current_time}</code>"
     )
+
     if reason:
         if chat.type == chat.SUPERGROUP and chat.username:
             log_message += f'\n<b>Reason:</b> <a href="https://telegram.me/{chat.username}/{message.message_id}">{reason}</a>'
         else:
             log_message += f"\n<b>Reason:</b> <code>{reason}</code>"
+
     if EVENT_LOGS:
         try:
             log = bot.send_message(EVENT_LOGS, log_message, parse_mode=ParseMode.HTML)
@@ -201,8 +203,10 @@ def gban(update: Update, context: CallbackContext):
         send_to_list(bot, DRAGONS + DEMONS, log_message, html=True)
 
     sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
+
     chats = get_user_com_chats(user_id)
     gbanned_chats = 0
+
     for chat in chats:
         chat_id = int(chat)
 
@@ -218,23 +222,24 @@ def gban(update: Update, context: CallbackContext):
             if excp.message in GBAN_ERRORS:
                 pass
             else:
-                message.reply_text(f"Could not gban due to: {excp.message}")
+                message.reply_text(f"Could not slay due to: {excp.message}")
                 if EVENT_LOGS:
                     bot.send_message(
                         EVENT_LOGS,
-                        f"Could not gban due to {excp.message}",
+                        f"Could not slay due to {excp.message}",
                         parse_mode=ParseMode.HTML,
                     )
                 else:
                     send_to_list(
                         bot,
                         DRAGONS + DEMONS,
-                        f"Could not gban due to: {excp.message}",
+                        f"Could not slay due to: {excp.message}",
                     )
                 sql.ungban_user(user_id)
                 return
         except TelegramError:
             pass
+
     if EVENT_LOGS:
         log.edit_text(
             log_message + f"\n<b>Chats affected:</b> <code>{gbanned_chats}</code>",
@@ -244,23 +249,24 @@ def gban(update: Update, context: CallbackContext):
         send_to_list(
             bot,
             DRAGONS + DEMONS,
-            f"Gban complete! (User banned in <code>{gbanned_chats}</code> chats)",
+            f"Slaying complete! (User banned in <code>{gbanned_chats}</code> chats)",
             html=True,
         )
 
     end_time = time.time()
     gban_time = round((end_time - start_time), 2)
+
     if gban_time > 60:
         gban_time = round((gban_time / 60), 2)
-        message.reply_text("Done! Gbanned.", parse_mode=ParseMode.HTML)
+        message.reply_text("Done! Slayed.", parse_mode=ParseMode.HTML)
     else:
-        message.reply_text("Done! Gbanned.", parse_mode=ParseMode.HTML)
+        message.reply_text("Done! Slayed.", parse_mode=ParseMode.HTML)
 
     try:
         bot.send_message(
             user_id,
             "#EVENT"
-            "You have been marked as Malicious and as such have been banned from any future groups we manage."
+            "You have been marked as Malicious and as such have been slayed/banned from any future groups we manage."
             f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
             f"</b>Appeal Chat:</b> @{SUPPORT_CHAT}",
             parse_mode=ParseMode.HTML,
@@ -291,7 +297,7 @@ def ungban(update: Update, context: CallbackContext):
         return
 
     if not sql.is_user_gbanned(user_id):
-        message.reply_text("This user is not gbanned!")
+        message.reply_text("This user is not slayed!")
         return
 
     message.reply_text(f"I'll give {user_chat.first_name} a second chance, globally.")
@@ -306,11 +312,11 @@ def ungban(update: Update, context: CallbackContext):
         chat_origin = f"<b>{chat.id}</b>\n"
 
     log_message = (
-        f"#UNGBANNED\n"
+        f"#REBORNED\n"
         f"<b>Originated from:</b> <code>{chat_origin}</code>\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>Unbanned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
-        f"<b>Unbanned User ID:</b> <code>{user_chat.id}</code>\n"
+        f"<b>Reborned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
+        f"<b>Reborned User ID:</b> <code>{user_chat.id}</code>\n"
         f"<b>Event Stamp:</b> <code>{current_time}</code>"
     )
 
@@ -346,17 +352,17 @@ def ungban(update: Update, context: CallbackContext):
             if excp.message in UNGBAN_ERRORS:
                 pass
             else:
-                message.reply_text(f"Could not un-gban due to: {excp.message}")
+                message.reply_text(f"Could not reborn due to: {excp.message}")
                 if EVENT_LOGS:
                     bot.send_message(
                         EVENT_LOGS,
-                        f"Could not un-gban due to: {excp.message}",
+                        f"Could not reborn due to: {excp.message}",
                         parse_mode=ParseMode.HTML,
                     )
                 else:
                     bot.send_message(
                         OWNER_ID,
-                        f"Could not un-gban due to: {excp.message}",
+                        f"Could not reborn due to: {excp.message}",
                     )
                 return
         except TelegramError:
@@ -370,16 +376,16 @@ def ungban(update: Update, context: CallbackContext):
             parse_mode=ParseMode.HTML,
         )
     else:
-        send_to_list(bot, DRAGONS + DEMONS, "un-gban complete!")
+        send_to_list(bot, DRAGONS + DEMONS, "reborn complete!")
 
     end_time = time.time()
     ungban_time = round((end_time - start_time), 2)
 
     if ungban_time > 60:
         ungban_time = round((ungban_time / 60), 2)
-        message.reply_text(f"Person has been un-gbanned. Took {ungban_time} min")
+        message.reply_text(f"Person has been reborned. Took {ungban_time} min")
     else:
-        message.reply_text(f"Person has been un-gbanned. Took {ungban_time} sec")
+        message.reply_text(f"Person has been reborn. Took {ungban_time} sec")
 
 
 @support_plus
@@ -388,22 +394,22 @@ def gbanlist(update: Update, context: CallbackContext):
 
     if not banned_users:
         update.effective_message.reply_text(
-            "There aren't any gbanned users! You're kinder than I expected...",
+            "There aren't any slayed users! You're kinder than I expected...",
         )
         return
 
-    banfile = "Screw these guys.\n"
+    banfile = "Screw these demons.\n"
     for user in banned_users:
         banfile += f"[x] {user['name']} - {user['user_id']}\n"
         if user["reason"]:
             banfile += f"Reason: {user['reason']}\n"
 
     with BytesIO(str.encode(banfile)) as output:
-        output.name = "gbanlist.txt"
+        output.name = "slayedlist.txt"
         update.effective_message.reply_document(
             document=output,
-            filename="gbanlist.txt",
-            caption="Here is the list of currently gbanned users.",
+            filename="slayed.txt",
+            caption="Here is the list of currently slayed demons.",
         )
 
 
@@ -421,11 +427,11 @@ def check_and_ban(update, user_id, should_message=True):
         update.effective_chat.ban_member(user_id)
         if should_message:
             update.effective_message.reply_text(
-                f"<b>Alert</b>: this user is globally banned.\n"
-                f"<code>*bans them from here*</code>.\n"
+                f"<b>Alert</b>: this user is globally slayed.\n"
+                f"<code>*slayed them from here*</code>.\n"
                 f"<b>Appeal chat</b>: {SPAMWATCH_SUPPORT_CHAT}\n"
                 f"<b>User ID</b>: <code>{sw_ban.id}</code>\n"
-                f"<b>Ban Reason</b>: <code>{html.escape(sw_ban.reason)}</code>",
+                f"<b>Slaying Reason</b>: <code>{html.escape(sw_ban.reason)}</code>",
                 parse_mode=ParseMode.HTML,
             )
         return
@@ -434,14 +440,14 @@ def check_and_ban(update, user_id, should_message=True):
         update.effective_chat.ban_member(user_id)
         if should_message:
             text = (
-                f"<b>Alert</b>: this user is globally banned.\n"
-                f"<code>*bans them from here*</code>.\n"
+                f"<b>Alert</b>: this user is globally slayed.\n"
+                f"<code>*slayed them from here*</code>.\n"
                 f"<b>Appeal chat</b>: @{SUPPORT_CHAT}\n"
                 f"<b>User ID</b>: <code>{user_id}</code>"
             )
             user = sql.get_gbanned_user(user_id)
             if user.reason:
-                text += f"\n<b>Ban Reason:</b> <code>{html.escape(user.reason)}</code>"
+                text += f"\n<b>Slayed Reason:</b> <code>{html.escape(user.reason)}</code>"
             update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
@@ -500,7 +506,7 @@ def gbanstat(update: Update, context: CallbackContext):
 
 
 def __stats__():
-    return f"• {sql.num_gbanned_users()} gbanned users."
+    return f"× {sql.num_gbanned_users()} gbanned users."
 
 
 def __user_info__(user_id):
@@ -528,15 +534,17 @@ def __migrate__(old_chat_id, new_chat_id):
 
 
 def __chat_settings__(chat_id, user_id):
-    return f"This chat is enforcing *gbans*: `{sql.does_chat_gban(chat_id)}`."
+    return f"This chat is enforcing *slaying*: `{sql.does_chat_gban(chat_id)}`."
 
 
 __help__ = f"""
 *Admins only:*
- • `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
+❂ `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
+
 Anti-Spam, used by bot devs to ban spammers across all groups. This helps protect \
 you and your groups by removing spam flooders as quickly as possible.
 *Note:* Users can appeal gbans or report spammers at @{SUPPORT_CHAT}
+
 This also integrates @Spamwatch API to remove Spammers as much as possible from your chatroom!
 *What is SpamWatch?*
 SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters[.](https://telegra.ph/file/f584b643c6f4be0b1de53.jpg)
@@ -544,9 +552,9 @@ Constantly help banning spammers off from your group automatically So, you wont 
 *Note:* Users can appeal spamwatch bans at @SpamwatchSupport
 """
 
-GBAN_HANDLER = CommandHandler("gban", gban, run_async=True)
-UNGBAN_HANDLER = CommandHandler("ungban", ungban, run_async=True)
-GBAN_LIST = CommandHandler("gbanlist", gbanlist, run_async=True)
+GBAN_HANDLER = CommandHandler("slay", gban, run_async=True)
+UNGBAN_HANDLER = CommandHandler("reborn", ungban, run_async=True)
+GBAN_LIST = CommandHandler("slaylist", gbanlist, run_async=True)
 GBAN_STATUS = CommandHandler(
     "antispam", gbanstat, filters=Filters.chat_type.groups, run_async=True
 )
@@ -558,6 +566,7 @@ dispatcher.add_handler(GBAN_HANDLER)
 dispatcher.add_handler(UNGBAN_HANDLER)
 dispatcher.add_handler(GBAN_LIST)
 dispatcher.add_handler(GBAN_STATUS)
+
 
 __mod_name__ = "✢ Spam ✢"
 __handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
