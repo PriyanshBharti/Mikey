@@ -1,28 +1,60 @@
-import importlib
 import html
+import os
+import json
+import importlib
 import time
 import re
-import requests
+import sys
+import traceback
+import Tanji.modules.sql.users_sql as sql
 from sys import argv
 from typing import Optional
+from telegram import __version__ as peler
+from platform import python_version as memek
+from Tanji import (
+    ALLOW_EXCL,
+    CERT_PATH,
+    DONATION_LINK,
+    LOGGER,
+    OWNER_ID,
+    PORT,
+    SUPPORT_CHAT,
+    TOKEN,
+    URL,
+    WEBHOOK,
+    SUPPORT_CHAT,
+    dispatcher,
+    StartTime,
+    telethn,
+    pbot,
+    updater,
+)
 
-from Tanji import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
-                          OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK,
-                          dispatcher, StartTime, telethn, updater, pbot, DEV_USERS, DRAGONS, DEMONS)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from Tanji.modules import ALL_MODULES
 from Tanji.modules.helper_funcs.chat_status import is_user_admin
 from Tanji.modules.helper_funcs.misc import paginate_modules
-from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, __version__ as ptbver,
-                      Update)
-from telegram.error import (BadRequest, ChatMigrated, NetworkError,
-                            TelegramError, TimedOut, Unauthorized)
-from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
-                          Filters, MessageHandler)
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
+from telegram.error import (
+    BadRequest,
+    ChatMigrated,
+    NetworkError,
+    TelegramError,
+    TimedOut,
+    Unauthorized,
+)
+from telegram.ext import (
+    CallbackContext,
+    CallbackQueryHandler,
+    CommandHandler,
+    Filters,
+    MessageHandler,
+)
 from telegram.ext.dispatcher import DispatcherHandlerStop, run_async
 from telegram.utils.helpers import escape_markdown
-from telethon import Button, events
+
+
 def get_readable_time(seconds: int) -> str:
     count = 0
     ping_time = ""
@@ -31,10 +63,7 @@ def get_readable_time(seconds: int) -> str:
 
     while count < 4:
         count += 1
-        if count < 3:
-            remainder, result = divmod(seconds, 60)
-        else:
-            remainder, result = divmod(seconds, 24)
+        remainder, result = divmod(seconds, 60) if count < 3 else divmod(seconds, 24)
         if seconds == 0 and remainder == 0:
             break
         time_list.append(int(result))
@@ -76,16 +105,7 @@ buttons = [
             text="✢ Add Kaneki To Your Group ✢", url="t.me/Kaneki_Ken_Robot?startgroup=new"),
     ],
 ]
-        
-group_buttons = [
-    [
-        InlineKeyboardButton(
-            text="🚑 Support", url=f"https://t.me/{SUPPORT_CHAT}"),
-        InlineKeyboardButton(
-            text="📣 Updates", url="https://t.me/KanekiUpdates"
-        ),
-    ],
-]
+
 
 HELP_STRINGS = """
 Click on the button bellow to get description about specifics command."""
@@ -114,7 +134,9 @@ for module_name in ALL_MODULES:
 
     if imported_module.__mod_name__.lower() not in IMPORTED:
         IMPORTED[imported_module.__mod_name__.lower()] = imported_module
-    
+    else:
+        raise Exception("Can't have two modules with the same name! Please change one")
+
     if hasattr(imported_module, "__help__") and imported_module.__help__:
         HELPABLE[imported_module.__mod_name__.lower()] = imported_module
 
@@ -179,102 +201,38 @@ def start(update: Update, context: CallbackContext):
                         [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="help_back")]]
                     ),
                 )
-    elif query.data == "tanji_notes":
-        query.message.edit_text(
-            text=f"<b>๏ Setting up notes</b>"
-            f"\nYou can save message/media/audio or anything as notes"
-            f"\nto get a note simply use # at the beginning of a word"
-            f"\n\nYou can also set buttons for notes and filters (refer help menu)",
-            parse_mode=ParseMode.HTML,
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")]]
-            ),
-        )
-    elif query.data == "tanji_support":
-        query.message.edit_text(
-            text="*๏ Kaneki Support Chat*"
-            "\nJoin My Support Group/Channel for see or report a problem on Kaneki.",
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                 [
-                    InlineKeyboardButton(text="✢ Support ✢", url="t.me/KanekiSupport"),
-                    InlineKeyboardButton(text="✢ Updates ✢", url="https://t.me/KanekiUpdates"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
-                 
-                 ]
-                ]
-            ),
-        )
 
+            elif args[0].lower().startswith("stngs_"):
+                match = re.match("stngs_(.*)", args[0].lower())
+                chat = dispatcher.bot.getChat(match.group(1))
 
-    elif query.data == "tanji_credit":
-        query.message.edit_text(
-            text=f"๏ Sponsor Groups and Special members\n"
-            "\nHere are some groups and members.",
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                 [
-                   InlineKeyboardButton(text="✢ Network ✢", url="https://t.me/TomanNetwork"),
-                   InlineKeyboardButton(text="✢ Devs ✢", url="https://t.me/SastaDev"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="✢ Owner ✢", url="https://t.me/Darling_Hiro"),
-                    InlineKeyboardButton(text="✢ Co-Owner ✢", url="https://t.me/NyaaNeko"),
-                 ],
-                    [
-                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
-                 ]
-                ]
-            ),
-        )
+                if is_user_admin(chat, update.effective_user.id):
+                    send_settings(match.group(1), update.effective_user.id, False)
+                else:
+                    send_settings(match.group(1), update.effective_user.id, True)
 
-def Source_about_callback(update, context):
-    query = update.callback_query
-    if query.data == "source_":
-        query.message.edit_text(
-            text="๏›› This advance command for Musicplayer."
-            "\n\n๏ Command for admins only."
-            "\n • `/reload` - For refreshing the adminlist."
-            "\n • `/pause` - To pause the playback."
-            "\n • `/resume` - To resuming the playback You've paused."
-            "\n • `/skip` - To skipping the player."
-            "\n • `/end` - For end the playback."
-            "\n • `/musicplayer <on/off>` - Toggle for turn ON or turn OFF the musicplayer."
-            "\n\n๏ Command for all members."
-            "\n • `/play` <query /reply audio> - Playing music via YouTube."
-            "\n • `/playlist` - To playing a playlist of groups or your personal playlist",
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                 [
-                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")
-                 ]
-                ]
-            ),
-        )
+            elif args[0][1:].isdigit() and "rules" in IMPORTED:
+                IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
 
-def alive(update: Update, context: CallbackContext):
-    uptime = get_readable_time((time.time() - StartTime))
-    first_name = update.effective_user.first_name
-    USER = escape_markdown(first_name)
-    SHINOBU = f"👋 *Hey There* {USER} \n\n"
-    SHINOBU += f"✨ *I'm {BOT_NAME}*\n🍀 *I'm Working Fine as always* \n\n"
-    SHINOBU += f"👑* My Creators:* [Tamim](https://t.me/TamimZaman) & [Lelouch](https://t.me/Im_Lelouch1)\n"
-    SHINOBU += f"*🧑‍💻 My Devs :* [Devs of {BOT_NAME}](https://t.me/Shinobu_Update_Channel/34)\n\n"
-    SHINOBU += "*🧚‍♂️ Bot version:* [Shinobu 2.6](https://t.me/Shinobu_Update_Channel/91)\n"
-    SHINOBU += "*🐍 Python-Telegram-Bot:*" + str(ptbver) + "\n"
-    SHINOBU += f"*⚡ Uptime:* {uptime}"
-    update.effective_message.reply_animation(
-      ALIVE_PIC,
-      caption=SHINOBU,
-      reply_markup=InlineKeyboardMarkup(group_buttons),
-      parse_mode=ParseMode.MARKDOWN,
-)
+        else:
+            first_name = update.effective_user.first_name
+            update.effective_message.reply_text(
+                PM_START_TEXT.format(
+                    escape_markdown(first_name),
+                    escape_markdown(uptime),
+                    sql.num_users(),
+                    sql.num_chats()),                        
+                reply_markup=InlineKeyboardMarkup(buttons),
+                parse_mode=ParseMode.MARKDOWN,
+                timeout=60,
+                disable_web_page_preview=False,
+            )
+    else:
+        update.effective_message.reply_text(
+            f"<b>Hi I'm Ken Kaneki!</b>\n<b>Started working since:</b> <code>{uptime}</code>",
+            parse_mode=ParseMode.HTML
+       )
+
 
 def error_handler(update, context):
     """Log the error and send a telegram message to notify the developer."""
@@ -357,7 +315,7 @@ def help_button(update, context):
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton(text="🔙 Back", callback_data="help_back")]]
+                    [[InlineKeyboardButton(text="Go Back", callback_data="help_back")]]
                 ),
             )
 
@@ -398,62 +356,162 @@ def help_button(update, context):
         pass
 
 
-def shinobu_about_callback(update, context):
+def tanji_about_callback(update, context):
     query = update.callback_query
-    if query.data == "aboutmanu_":
+    if query.data == "tanji_":
         query.message.edit_text(
-            text=f"Hey there! my name is *{BOT_NAME}* 🧚‍♂️ Click on Help button to know my commands \n\nI'm here to make your group management fun and easy! I have lots of handy features, such as flood control, a warning system, a note keeping system, and even replies on predetermined filters."
-                 f"\n\n Join [Updates Channel](https://t.me/Shinobu_Update_Channel) To Keep Yourself Updated About me."
-                 f"\n\nAny issues or need help related to me? Come visit us in [Support Chat](https://t.me/{SUPPORT_CHAT})"
-                 f"\n\nYou Can Know More About Me By Clicking The Below Buttons.",
+            text="๏ I'm *Ken Kaneki*, a powerful group management bot built to help you manage your group easily."
+            "\n• I can restrict users."
+            "\n• I can greet users with customizable welcome messages and even set a group's rules."
+            "\n• I have an advanced anti-flood system."
+            "\n• I can warn users until they reach max warns, with each predefined actions such as ban, mute, kick, etc."
+            "\n• I have a note keeping system, blacklists, and even predetermined replies on certain keywords."
+            "\n• I check for admins' permissions before executing any command and more stuffs"
+            "\n\n_Kaneki's licensed under the GNU General Public License v3.0_"
+            "\n\n Click on button bellow to get basic help for Kaneki_Ken_Robot.",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [
-                  [
-                    InlineKeyboardButton(text="How To Use Me", callback_data="aboutmanu_howto"),
-                    InlineKeyboardButton(text="Credits", callback_data="aboutmanu_credits")
-                  ],
                  [
-                    InlineKeyboardButton(text="❔Help", callback_data="help_back"),
-                    InlineKeyboardButton(text="Support ☎️", url="https://t.me/{SUPPORT_CHAT}")
+                    InlineKeyboardButton(text="✢ Admins ✢", callback_data="tanji_admin"),
+                    InlineKeyboardButton(text="✢ Notes ✢", callback_data="tanji_notes"),
                  ],
                  [
-                    InlineKeyboardButton(text="🔙 Back", callback_data="aboutmanu_back")
-                 ] 
+                    InlineKeyboardButton(text="✢ Support ✢", callback_data="tanji_support"),
+                    InlineKeyboardButton(text="✢ Credits ✢", callback_data="tanji_credit"),
+                 ],
+                 [
+                    InlineKeyboardButton(text="✢ Owner ✢", url="https://t.me/Darling_Hiro"),
+                ],
+                 [
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_back"),
+                 ]
                 ]
             ),
         )
-    elif query.data == "aboutmanu_back":
+    elif query.data == "tanji_back":
+        first_name = update.effective_user.first_name
+        uptime = get_readable_time((time.time() - StartTime))
         query.message.edit_text(
-                PM_START_TEXT,
+                PM_START_TEXT.format(
+                    escape_markdown(first_name),
+                    escape_markdown(uptime),
+                    sql.num_users(),
+                    sql.num_chats()),
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
-                timeout=60, 
-            )
-        
-    elif query.data == "aboutmanu_howto":
-        query.message.edit_text(
-            text=f"* ｢ BASIC HELP 」*"
-                 f"\nYou Can Know Main commands of {dispatcher.bot.first_name} by Just Clicking [Here](https://t.me/Shinobu_Update_Channel/51).\n"
-                 f"\nJoin [This Channel](https://t.me/Shinobu_Update_Channel) to get updates about {BOT_NAME}\n"
-                 f"Need help ? Come visit us in Support chat",
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton(text="Guide 📖", url="https://t.me/Shinobu_Update_Channel/51"),
-                InlineKeyboardButton(text="Support ☎️", url="https://t.me/{SUPPORT_CHAT}")
-                ],
-                [
-                InlineKeyboardButton(text="🔙 Back", callback_data="aboutmanu_")]
-                                               ]),
+                timeout=60,
+                disable_web_page_preview=False,
         )
-    elif query.data == "aboutmanu_credits":
+
+    elif query.data == "tanji_admin":
         query.message.edit_text(
-            Credits,
+            text=f"*๏ Let's make your group bit effective now*"
+            "\nCongragulations, Ken Kaneki now ready to manage your group."
+            "\n\n*Admin Tools*"
+            "\nBasic Admin tools help you to protect and powerup your group."
+            "\nYou can ban members, Kick members, Promote someone as admin through commands of bot."
+            "\n\n*Greetings*"
+            "\nLets set a welcome message to welcome new users coming to your group."
+            "\nsend `/setwelcome [message]` to set a welcome message!",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="🔙 Back", callback_data="aboutmanu_")]]),
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")]]
+            ),
+        )
+
+    elif query.data == "tanji_notes":
+        query.message.edit_text(
+            text=f"<b>๏ Setting up notes</b>"
+            f"\nYou can save message/media/audio or anything as notes"
+            f"\nto get a note simply use # at the beginning of a word"
+            f"\n\nYou can also set buttons for notes and filters (refer help menu)",
+            parse_mode=ParseMode.HTML,
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")]]
+            ),
+        )
+    elif query.data == "tanji_support":
+        query.message.edit_text(
+            text="*๏ Kaneki Support Chat*"
+            "\nJoin My Support Group/Channel for see or report a problem on Kaneki.",
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                 [
+                    InlineKeyboardButton(text="✢ Support ✢", url="t.me/KanekiSupport"),
+                    InlineKeyboardButton(text="✢ Updates ✢", url="https://t.me/KanekiUpdates"),
+                 ],
+                 [
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
+                 
+                 ]
+                ]
+            ),
+        )
+
+
+    elif query.data == "tanji_credit":
+        query.message.edit_text(
+            text=f"๏ Sponsor Groups and Special members\n"
+            "\nHere are some groups and members.",
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                 [
+                   InlineKeyboardButton(text="✢ Network ✢", url="https://t.me/TomanNetwork"),
+                   InlineKeyboardButton(text="✢ Devs ✢", url="https://t.me/SastaDev"),
+                 ],
+                 [
+                    InlineKeyboardButton(text="✢ Owner ✢", url="https://t.me/Darling_Hiro"),
+                    InlineKeyboardButton(text="✢ Co-Owner ✢", url="https://t.me/NyaaNeko"),
+                 ],
+                    [
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
+                 ]
+                ]
+            ),
+        )
+
+def Source_about_callback(update, context):
+    query = update.callback_query
+    if query.data == "source_":
+        query.message.edit_text(
+            text="๏›› This advance command for Musicplayer."
+            "\n\n๏ Command for admins only."
+            "\n • `/reload` - For refreshing the adminlist."
+            "\n • `/pause` - To pause the playback."
+            "\n • `/resume` - To resuming the playback You've paused."
+            "\n • `/skip` - To skipping the player."
+            "\n • `/end` - For end the playback."
+            "\n • `/musicplayer <on/off>` - Toggle for turn ON or turn OFF the musicplayer."
+            "\n\n๏ Command for all members."
+            "\n • `/play` <query /reply audio> - Playing music via YouTube."
+            "\n • `/playlist` - To playing a playlist of groups or your personal playlist",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                 [
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")
+                 ]
+                ]
+            ),
+        )
+    elif query.data == "source_back":
+        first_name = update.effective_user.first_name
+        query.message.edit_text(
+                PM_START_TEXT.format(
+                    escape_markdown(first_name),
+                    escape_markdown(uptime),
+                    sql.num_users(),
+                    sql.num_chats()),
+                reply_markup=InlineKeyboardMarkup(buttons),
+                parse_mode=ParseMode.MARKDOWN,
+                timeout=60,
+                disable_web_page_preview=False,
         )
 
 def get_help(update: Update, context: CallbackContext):
@@ -507,7 +565,7 @@ def get_help(update: Update, context: CallbackContext):
             chat.id,
             text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="🔙 Back", callback_data="help_back")]]
+                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="help_back")]]
             ),
         )
 
@@ -579,7 +637,7 @@ def settings_button(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="🔙 Back",
+                                text="✢ Go Back ✢",
                                 callback_data="stngs_back({})".format(chat_id),
                             )
                         ]
@@ -679,13 +737,12 @@ def donate(update: Update, context: CallbackContext):
             DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True
         )
 
-        if OWNER_ID != 1610284626 and DONATION_LINK:
+        if OWNER_ID != 1606221784:
             update.effective_message.reply_text(
-                "You can also donate to the person currently running me "
-                "[here]({})".format(DONATION_LINK),
+                "I'm free for everyone ❤️ If you wanna make me smile, just join"
+                "[My Channel]({})".format(DONATION_LINK),
                 parse_mode=ParseMode.MARKDOWN,
             )
-
     else:
         try:
             bot.send_message(
@@ -723,62 +780,18 @@ def migrate_chats(update: Update, context: CallbackContext):
     raise DispatcherHandlerStop
 
 
-# unban inline button for user
-def unbaninlinebutton(update, context):
-    user = update.effective_user
-    chat = update.effective_chat
-    query = update.callback_query
-    if not is_user_admin(chat, user.id) and not str(user.id) in (OWNER_ID, CO_OWNER_ID, DEV_USERS, DRAGONS, DEMONS):
-       context.bot.answer_callback_query(callback_query_id=query.id, text='only admins can do this.', show_alert=True)
-       return
-    user_id = query.data
-    regex = re.search(r"unbaninlinebutton(.+)", user_id)
-    user_info = context.bot.get_chat(regex.group(1))
-    clicker_info = context.bot.get_chat(user.id)
-    chat.unban_member(regex.group(1))
-    query.message.edit_text(
-        text=f'''
-*❕UnBan Event*
-  *• User:* [{user_info.first_name}](tg://user?id={regex.group(1)})
-  *• By:* [{clicker_info.first_name}](tg://user?id={user.id})
-              ''',
-        parse_mode=ParseMode.MARKDOWN)
-
-# unban inline button for channel
-def cunbaninlinebutton(update, context):
-    user = update.effective_user
-    chat = update.effective_chat
-    query = update.callback_query
-    user_id = query.data
-    regex = re.search(r"unbaninlinebutton(.+)", user_id)
-    user_id = regex.group(1)
-    BAN_CHANNEL_INFO = context.bot.get_chat(user_id)
-    BAN_CHANNEL_USERNAME = BAN_CHANNEL_INFO.username
-    UNBAN_CHAT_CHANNEL = f"https://api.telegram.org/bot{TOKEN}/unbanChatSenderChat?chat_id={chat.id}&sender_chat_id={user_id}"
-    clicker_info = context.bot.get_chat(user.id)
-    if not is_user_admin(chat, user.id) and not str(user.id) in (OWNER_ID, CO_OWNER_ID, DEV_USERS, DRAGONS, DEMONS):
-       context.bot.answer_callback_query(callback_query_id=query.id, text='only admins can do this.', show_alert=True)
-       return
-    respond = requests.post(UNBAN_CHAT_CHANNEL)
-    if respond.status_code == 200:
-       BANNED_CHANNEL_LINK = BAN_CHANNEL_USERNAME
-       query.message.edit_text(
-        text=f'''
-*❕UnBan Event*
-  *• Chat:* @{BANNED_CHANNEL_LINK}
-  *• By:* [{clicker_info.first_name}](tg://user?id={user.id})
-              ''',
-        parse_mode=ParseMode.MARKDOWN)
-    else:
-        query.message.edit_text(text=f"An error occurred while channel unbanning from inline button, please report this to @{SUPPORT_CHAT}. Thank you!")
-
-
-
 def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "Bot Is Alive Now 🧚")
+            dispatcher.bot.sendMessage(
+                f"@{SUPPORT_CHAT}", 
+                f"""**Boom Boom!!**
+
+**Python:** `{memek()}`
+**Telegram Library:** `v{peler}`""",
+                parse_mode=ParseMode.MARKDOWN
+            )
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!"
@@ -788,33 +801,42 @@ def main():
 
     test_handler = CommandHandler("test", test, run_async=True)
     start_handler = CommandHandler("start", start, run_async=True)
-    alive_handler = CommandHandler("alive", alive, run_async=True)
+
     help_handler = CommandHandler("help", get_help, run_async=True)
-    help_callback_handler = CallbackQueryHandler(help_button, pattern=r"help_.*", run_async=True)
+    help_callback_handler = CallbackQueryHandler(
+        help_button, pattern=r"help_.*", run_async=True
+    )
 
     settings_handler = CommandHandler("settings", get_settings, run_async=True)
-    settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_", run_async=True)
+    settings_callback_handler = CallbackQueryHandler(
+        settings_button, pattern=r"stngs_", run_async=True
+    )
 
-    about_callback_handler = CallbackQueryHandler(shinobu_about_callback, pattern=r"aboutmanu_", run_async=True)
+    about_callback_handler = CallbackQueryHandler(
+        tanji_about_callback, pattern=r"tanji_", run_async=True
+    )
 
-    donate_handler = CommandHandler("donate", donate)
-    migrate_handler = MessageHandler(Filters.status_update.migrate, migrate_chats)
+    source_callback_handler = CallbackQueryHandler(
+        Source_about_callback, pattern=r"source_", run_async=True
+    )
 
-    unban_inline_button_handler = CallbackQueryHandler(unbaninlinebutton, pattern=r"unbaninlinebutton(.+)", run_async=True)
-    cunban_inline_button_handler = CallbackQueryHandler(cunbaninlinebutton, pattern=r"cunbaninlinebutton(.+)", run_async=True)
-    # dispatcher.add_handler(test_handler)
+    donate_handler = CommandHandler("donate", donate, run_async=True)
+    migrate_handler = MessageHandler(
+        Filters.status_update.migrate, migrate_chats, run_async=True
+    )
+
+    dispatcher.add_handler(test_handler)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
     dispatcher.add_handler(about_callback_handler)
+    dispatcher.add_handler(source_callback_handler)
     dispatcher.add_handler(settings_handler)
     dispatcher.add_handler(help_callback_handler)
     dispatcher.add_handler(settings_callback_handler)
     dispatcher.add_handler(migrate_handler)
     dispatcher.add_handler(donate_handler)
-    dispatcher.add_handler(alive_handler)
+
     dispatcher.add_error_handler(error_callback)
-    dispatcher.add_handler(unban_inline_button_handler)
-    dispatcher.add_handler(cunban_inline_button_handler)
 
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
@@ -837,7 +859,7 @@ def main():
     updater.idle()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     pbot.start()
