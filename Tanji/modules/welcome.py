@@ -207,19 +207,6 @@ def new_member(update: Update, context: CallbackContext):
                     f"Bot Owner just joined the group"
                 )
                 continue
-            
-            # Give the co_owner a special welcome
-            if new_mem.id == CO_OWNER_ID:
-                update.effective_message.reply_text(
-                    "OMG, 𝐊𝐢𝐧𝐠 Just Joined the chat.",
-                    reply_to_message_id=reply,
-                )
-                welcome_log = (
-                    f"{html.escape(chat.title)}\n"
-                    f"#USER_JOINED\n"
-                    f"Bot Owner just joined the group"
-                )
-                continue
 
             # Welcome Devs
             if new_mem.id in DEV_USERS:
