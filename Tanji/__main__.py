@@ -9,7 +9,7 @@ from typing import Optional
 from Tanji import (
 import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
                           OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK,
-                          dispatcher, StartTime, telethn, updater, pbot, DEV_USERS, DRAGONS, DEMONS, BOT_NAME, BOT_PIC, ALIVE_PIC)
+                          dispatcher, StartTime, telethn, updater, pbot, DEV_USERS, DRAGONS, DEMONS, ALIVE_PIC)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from Tanji.modules import ALL_MODULES
