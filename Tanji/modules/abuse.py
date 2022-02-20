@@ -40,7 +40,7 @@ __help__ = """
 - /dark  🤬.
 """
 
-__mod_name__ = "Abuse"
+__mod_name__ = "✢ Abuse ✢"
 
 DARK_HANDLER = DisableAbleCommandHandler("dark", dark)
 
