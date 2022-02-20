@@ -7,10 +7,10 @@ import re
 import sys
 import traceback
 import Tanji.modules.sql.users_sql as sql
-
-
 from sys import argv
 from typing import Optional
+from telegram import __version__ as peler
+from platform import python_version as memek
 from Tanji import (
     ALLOW_EXCL,
     CERT_PATH,
@@ -18,19 +18,17 @@ from Tanji import (
     LOGGER,
     OWNER_ID,
     PORT,
+    SUPPORT_CHAT,
     TOKEN,
     URL,
     WEBHOOK,
     SUPPORT_CHAT,
-    BOT_USERNAME,
-    BOT_NAME,
-    EVENT_LOGS,
     dispatcher,
     StartTime,
-    telethn,Tanji
-    updater,
+    telethn,
     pbot,
-    )
+    updater,
+)
 
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
