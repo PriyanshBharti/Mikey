@@ -51,31 +51,31 @@ def get_readable_time(seconds: int) -> str:
     return ping_time
 
 
-PM_START_TEXT = f"""
-Hello there,The name's *{BOT_NAME}* [🧚‍♂️]({BOT_PIC})
-I am an Anime themed group management with some fun features.
-Make sure you read *About Me* section below."""
+PM_START_TEXT = """
+*Ohayo! {} !*
+• I am an Anime themed advance group management bot with a lot of awesome Features. [♡](https://telegra.ph/file/a11ca8e25b55d54364f1f.jpg)
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+× *Uptime:* `{}`
+× `{}` *users, across* `{}` *chats.*
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+• Hit /help to see my available commands.
+"""
 
-Credits = f"""
-*{BOT_NAME} Is A Powerful Anime Themed Bot For Managing Groups With Additional Features.*
-
-Base Of [Saitama](https://github.com/AnimeKaizoku/SaitamaRobot).
-{BOT_NAME}'s Licensed Under The GNU _(General Public License v3.0)_
-
-{BOT_NAME}'s Owners: @TamimZaman And [@Im_Lelouch1](https://t.me/Im_Lelouch1)
-
-*Devs:*
-@TamimZaman • Main Dev
-
-Other Devs
-[@The_Ghost_hunter](https://t.me/The_Ghost_hunter)
-[@Mikey_Sano_Kun](https://t.me/Mikey_Sano_Kun)
-@ShalmonAnandMate 
-
-*Thanks to all the devs in {BOT_NAME} for helping*
-
-If You Have Any Question About {BOT_NAME}
-Let Us Know At [Support Chat](Https://t.me/{SUPPORT_CHAT})."""
+buttons = [
+    [
+        InlineKeyboardButton(text="✢ About Ken Kaneki ✢", callback_data="tanji_"),
+    ],
+    [
+        InlineKeyboardButton(text="✢ Get Help ✢", callback_data="help_back"),
+        InlineKeyboardButton(
+            text="✢ Try inline! ✢​​", switch_inline_query_current_chat=""
+        ),
+    ],
+    [
+        InlineKeyboardButton(
+            text="✢ Add Kaneki To Your Group ✢", url="t.me/Kaneki_Ken_Robot?startgroup=new"),
+    ],
+]
         
 group_buttons = [
     [
