@@ -138,7 +138,7 @@ __help__ = """
 Chatbot is using api of Kuki which allows Kaneki to talk and provide a more interactive group chat experience.
 
 *Admins only Commands*:
-  ➢ `/Chatbot`*:* Shows chatbot control panel
+  ❂ `/Chatbot`*:* Shows chatbot control panel
 """
 
 __mod_name__ = "✢ ChatBot ✢"
