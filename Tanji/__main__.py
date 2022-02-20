@@ -64,13 +64,13 @@ from telethon import Button, events
 
 @telethn.on(events.NewMessage(pattern="/alive"))
 async def awake(event):
-  TANJI = event.sender.first_name
-  TANJI = "**♡ I,m  Hinata Hyuga** \n\n"
-  TANJI += "**♡ I'm Working With Lighting Speed**\n\n"
-  TANJI += "**♡ Kaneki: LATEST Version**\n\n"
-  TANJI += "**♡ My Creator:** [Meet](t.me/Madara_625)\n\n"
-  TANJI += "**♡ python-Telegram-Bot: 13.6**\n\n"
-  TANJI_BUTTON = [
+  HINATA = event.sender.first_name
+  HINATA = "**♡ I,m  Hinata Hyuga** \n\n"
+  HINATA += "**♡ I'm Working With Lighting Speed**\n\n"
+  HINATA += "**♡ Cutiepii: LATEST Version**\n\n"
+  HINATA += "**♡ My Creator:** [Meet](t.me/Madara_625)\n\n"
+  HINATA += "**♡ python-Telegram-Bot: 13.6**\n\n"
+  HINATA_BUTTON = [
       [
           Button.url("🚑 Support", f"https://t.me/{SUPPORT_CHAT}"),
           Button.url("📢 Updates", "https://t.me/HinataUpdates")
