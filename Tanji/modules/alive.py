@@ -12,8 +12,7 @@ from Tanji import telethn as tbot
 PHOTO = "https://telegra.ph/file/dcdbb6365975d066015c7.mp4"
 
 @register(pattern=("/alive"))
-async def awake(event):
-def alive(update: Update, context: CallbackContext):
+async def alive(update: Update, context: CallbackContext):
     uptime = get_readable_time((time.time() - StartTime))
     first_name = update.effective_user.first_name
     USER = escape_markdown(first_name)
