@@ -249,6 +249,23 @@ def start(update: Update, context: CallbackContext):
                 ]
             ),
         )
+def alive(update: Update, context: CallbackContext):
+    uptime = get_readable_time((time.time() - StartTime))
+    first_name = update.effective_user.first_name
+    USER = escape_markdown(first_name)
+    SHINOBU = f"👋 *Hey There* {USER} \n\n"
+    SHINOBU += f"✨ *I'm {BOT_NAME}*\n🍀 *I'm Working Fine as always* \n\n"
+    SHINOBU += f"👑* My Creators:* [Tamim](https://t.me/TamimZaman) & [Lelouch](https://t.me/Im_Lelouch1)\n"
+    SHINOBU += f"*🧑‍💻 My Devs :* [Devs of {BOT_NAME}](https://t.me/Shinobu_Update_Channel/34)\n\n"
+    SHINOBU += "*🧚‍♂️ Bot version:* [Shinobu 2.6](https://t.me/Shinobu_Update_Channel/91)\n"
+    SHINOBU += "*🐍 Python-Telegram-Bot:*" + str(ptbver) + "\n"
+    SHINOBU += f"*⚡ Uptime:* {uptime}"
+    update.effective_message.reply_animation(
+      ALIVE_PIC,
+      caption=SHINOBU,
+      reply_markup=InlineKeyboardMarkup(group_buttons),
+      parse_mode=ParseMode.MARKDOWN,
+)
 
 def error_handler(update, context):
     """Log the error and send a telegram message to notify the developer."""
