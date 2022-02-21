@@ -79,7 +79,7 @@ def get_readable_time(seconds: int) -> str:
 
     return ping_time
 
-GROUP_START_IMG = "https://telegra.ph/file/2cd6f97e0cf04d63cabf4.mp4"
+GROUP_START_IMG = "https://telegra.ph/file/2901859beedbe837cc419.mp4"
 
 FLARE_PHOTO = "https://telegra.ph/file/2a171330f0ad1fc02465c.jpg"
 
@@ -802,7 +802,7 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "[hey! I am back from OYO!!](https://telegra.ph/file/926039375cac9825e1e58.jpg)", parse_mode=ParseMode.MARKDOWN)
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "[Not Dead Yet. Still Surviving!](https://telegra.ph/file/7c2e79466f6f6822b2fad.jpg)", parse_mode=ParseMode.MARKDOWN)
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!",
