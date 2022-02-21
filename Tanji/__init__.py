@@ -1,4 +1,3 @@
-import asyncio
 import logging
 import os
 import sys
@@ -7,47 +6,33 @@ import asyncio
 import time
 import spamwatch
 import telegram.ext as tg
-
-from inspect import getfullargspec
+from redis import StrictRedis
 from aiohttp import ClientSession
 from Python_ARQ import ARQ
 from telethon import TelegramClient
-from telethon.sessions import StringSession
-from telethon.sessions import MemorySession
-from pyrogram.types import Message
+from telethon.sessions import MemorySession, StringSession
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Chat, User
-from ptbcontrib.postgres_persistence import PostgresPersistence
+
 
 StartTime = time.time()
 
-def get_user_list(__init__, key):
-    with open("{}/Tanji/{}".format(os.getcwd(), __init__), "r") as json_file:
-        return json.load(json_file)[key]
-
 # enable logging
-FORMAT = "[Tanji] %(message)s"
 logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
     level=logging.INFO,
-    format=FORMAT,
-    datefmt="[%X]",
 )
-logging.getLogger("pyrogram").setLevel(logging.INFO)
-logging.getLogger('ptbcontrib.postgres_persistence.postgrespersistence').setLevel(logging.WARNING)
 
-LOGGER = logging.getLogger('[Tanji]')
-LOGGER.info("Tanjirou is starting. | An Lynncept Projects Parts. | Licensed under GPLv3.")
-LOGGER.info("Not affiliated to other anime or Villain in any way whatsoever.")
-LOGGER.info("Project maintained by: github.com/Lynncept77 (t.me/Lynncept_iz_here)")
+LOGGER = logging.getLogger(__name__)
 
-# if version < 3.9, stop bot.
-if sys.version_info[0] < 3 or sys.version_info[1] < 9:
+# if version < 3.6, stop bot.
+if sys.version_info[0] < 3 or sys.version_info[1] < 6:
     LOGGER.error(
-        "You MUST have a python version of at least 3.9! Multiple features depend on this. Bot quitting."
+        "You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting."
     )
-    sys.exit(1)
+    quit(1)
 
 ENV = bool(os.environ.get("ENV", False))
 
@@ -63,25 +48,25 @@ if ENV:
     OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
 
     try:
-        DRAGONS = {int(x) for x in os.environ.get("ThunderBreathing", "").split()}
-        DEV_USERS = {int(x) for x in os.environ.get("FlameBreathing", "").split()}
+        OWNERS = {int(x) for x in os.environ.get("OWNERS", "").split()}
+    except ValueError:
+        raise Exception("Your owner users list does not contain valid integers.")
+
+    try:
+        DRAGONS = {int(x) for x in os.environ.get("DRAGONS", "").split()}
+        DEV_USERS = {int(x) for x in os.environ.get("DEV_USERS", "").split()}
     except ValueError:
         raise Exception("Your sudo or dev users list does not contain valid integers.")
 
     try:
-        DEMONS = {int(x) for x in os.environ.get("Windbreathing", "").split()}
+        DEMONS = {int(x) for x in os.environ.get("DEMONS", "").split()}
     except ValueError:
-        raise Exception("Your Wind Breathers list does not contain valid integers.")
+        raise Exception("Your support users list does not contain valid integers.")
 
     try:
-        WOLVES = {int(x) for x in os.environ.get("Beastbreathing", "").split()}
-    except ValueError: 
-        raise Exception("Your Beast Breathers list does not contain valid integers.")
-
-    try:
-        TIGERS = {int(x) for x in os.environ.get("Waterbreathing", "").split()}
+        TIGERS = {int(x) for x in os.environ.get("TIGERS", "").split()}
     except ValueError:
-        raise Exception("Your Water Breathers list does not contain valid integers.")
+        raise Exception("Your whitelisted users list does not contain valid integers.")
 
     INFOPIC = bool(os.environ.get("INFOPIC", True))
     EVENT_LOGS = os.environ.get("EVENT_LOGS", None)
@@ -124,11 +109,11 @@ if ENV:
     ALIVE_PIC = os.environ.get("ALIVE_PIC", None)
     ARQ_API_URL = os.environ.get("ARQ_API_URL", "https://thearq.tech")
     ARQ_API_KEY = ARQ_API
-    
+
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
 
     try:
-        BL_CHATS = {int(x) for x in os.environ.get("BL_CHATS", "").split()}
+        BL_CHATS = set(int(x) for x in os.environ.get("BL_CHATS", "").split())
     except ValueError:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
 
@@ -146,6 +131,11 @@ else:
     OWNER_USERNAME = Config.OWNER_USERNAME
     ALLOW_CHATS = Config.ALLOW_CHATS
     try:
+        OWNERS = {int(x) for x in Config.OWNERS or []}
+    except ValueError:
+        raise Exception("Your owner users list does not contain valid integers.")
+
+    try:
         DRAGONS = {int(x) for x in Config.DRAGONS or []}
         DEV_USERS = {int(x) for x in Config.DEV_USERS or []}
     except ValueError:
@@ -154,17 +144,12 @@ else:
     try:
         DEMONS = {int(x) for x in Config.DEMONS or []}
     except ValueError:
-        raise Exception("Your Wind Breathers list does not contain valid integers.")
-
-    try:
-        WOLVES = {int(x) for x in Config.WOLVES or []}
-    except ValueError:
-        raise Exception("Your Beast Breathers list does not contain valid integers.")
+        raise Exception("Your support users list does not contain valid integers.")
 
     try:
         TIGERS = {int(x) for x in Config.TIGERS or []}
     except ValueError:
-        raise Exception("Your Water Breathers list does not contain valid integers.")
+        raise Exception("Your whitelisted users list does not contain valid integers.")
 
     EVENT_LOGS = Config.EVENT_LOGS
     WEBHOOK = Config.WEBHOOK
@@ -206,17 +191,21 @@ else:
     except ValueError:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
 
-# If you forking dont remove this id, just add your id. LEL...
-
 DRAGONS.add(OWNER_ID)
-DRAGONS.add(1568968985)
-DRAGONS.add(5007774455)
-DRAGONS.add(1635151800)
 DEV_USERS.add(OWNER_ID)
-DEV_USERS.add(1157847739)
-DEV_USERS.add(2020120598)
-DEV_USERS.add(1788383898)
+DRAGONS.add(CO_OWNER_ID)
+DEV_USERS.add(CO_OWNER_ID)
 
+REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
+
+try:
+    REDIS.ping()
+    LOGGER.info("Your redis server is now alive!")
+except BaseException:
+    raise Exception("Your redis server is not alive, please check again.")
+finally:
+    REDIS.ping()
+    LOGGER.info("Your redis server is now alive!")
 if not SPAMWATCH_API:
     sw = None
     LOGGER.warning("SpamWatch API key missing! recheck your config")
@@ -227,7 +216,7 @@ else:
         sw = None
         LOGGER.warning("Can't connect to SpamWatch!")
 
-from Tanji.modules.sql import SESSION
+from ShinobuRobot.modules.sql import SESSION
 
 defaults = tg.Defaults(run_async=True)
 updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
@@ -237,7 +226,7 @@ telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 TANJI_API_ID = 7457259
 TANJI_API_HASH = "5ff533edb3a162956658beb175be2d9d"
 ubot = TelegramClient(StringSession(STRING_SESSION), TANJI_API_ID, TANJI_API_HASH)
-print("[INFO]: Connecting To Tanji's Userbot")
+print("[INFO]: Connecting To Shinobu's Userbot")
 
 dispatcher = updater.dispatcher
 BOT_NAME = dispatcher.bot.first_name
@@ -247,12 +236,6 @@ aiohttpsession = ClientSession()
 print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
-ubot2 = TelegramClient(StringSession(STRING_SESSION), API_ID, API_HASH)
-try:
-    ubot2.start()
-except BaseException:
-    print("Userbot Error ! Have you added a STRING_SESSION in deploying??")
-    sys.exit(1)
 
 pbot = Client(
     ":memory:",
@@ -263,7 +246,7 @@ pbot = Client(
 )
 apps = []
 apps.append(pbot)
-loop = asyncio.get_event_loop()
+
 
 async def get_entity(client, entity):
     entity_client = client
@@ -292,17 +275,11 @@ async def get_entity(client, entity):
     return entity, entity_client
 
 
-async def eor(msg: Message, **kwargs):
-    func = msg.edit_text if msg.from_user.is_self else msg.reply
-    spec = getfullargspec(func.__wrapped__).args
-    return await func(**{k: v for k, v in kwargs.items() if k in spec})
-
-
-DRAGONS = list(DRAGONS) + list(DEV_USERS)
+DRAGONS = list(DRAGONS) + list(DEV_USERS) + list(OWNERS)
 DEV_USERS = list(DEV_USERS)
-WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
+OWNERS = list(OWNERS)
 
 # Load at end to ensure all prev variables have been set
 from Tanji.modules.helper_funcs.handlers import (
