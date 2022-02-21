@@ -256,9 +256,9 @@ def alive(update: Update, context: CallbackContext):
     USER = escape_markdown(first_name)
     KANEKI = f"👋 *Hey There* {USER} \n\n"
     KANEKI += f"✨ *I'm {BOT_NAME}*\n🍀 *I'm Working Fine as always* \n\n"
-    KANEKI += f"👑* My Creators:* [Tamim](https://t.me/TamimZaman) & [Lelouch](https://t.me/Im_Lelouch1)\n"
+    KANEKI += f"👑* My Creator:* [Tamim](https://t.me/Darling_Hiro)"
     KANEKI += f"*🧑‍💻 My Devs :* [Devs of {BOT_NAME}](https://t.me/Shinobu_Update_Channel/34)\n\n"
-    KANEKI += "*🧚‍♂️ Bot version:* [Shinobu 2.6](https://t.me/Shinobu_Update_Channel/91)\n"
+    KANEKI += "*🧚‍♂️ Bot version:* [Kaneki 2.0](https://t.me/KanekiUpdates/7)\n"
     KANEKI += "*🐍 Python-Telegram-Bot:*" + str(ptbver) + "\n"
     KANEKI += f"*⚡ Uptime:* {uptime}"
     update.effective_message.reply_animation(
