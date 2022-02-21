@@ -23,7 +23,7 @@ from Tanji import (
     URL,
     WEBHOOK,
     SUPPORT_CHAT,
-    BOT_NAME
+    BOT_NAME,
     dispatcher,
     StartTime,
     telethn,
