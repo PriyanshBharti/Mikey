@@ -1,11 +1,16 @@
-import importlib
 import html
+import os
+import json
+import importlib
 import time
 import re
-import requests
+import sys
+import traceback
+import Tanji.modules.sql.users_sql as sql
 from sys import argv
 from typing import Optional
-
+from telegram import __version__ as peler
+from platform import python_version as memek
 from Tanji import (
     ALLOW_EXCL,
     CERT_PATH,
@@ -24,6 +29,7 @@ from Tanji import (
     pbot,
     updater,
 )
+
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from Tanji.modules import ALL_MODULES
@@ -73,7 +79,6 @@ def get_readable_time(seconds: int) -> str:
 
     return ping_time
 
-GROUP_START_IMG = "https://telegra.ph/file/2901859beedbe837cc419.mp4"
 
 PM_START_TEXT = """
 *Ohayo! {} !*
@@ -223,27 +228,11 @@ def start(update: Update, context: CallbackContext):
                 disable_web_page_preview=False,
             )
     else:
-        update.effective_message.reply_animation(
-            GROUP_START_IMG, caption= "Hey There! I am Ken Kaneki\n<b>Working Since:</b> <code>{}</code>".format(
-                uptime
-            ),
-            parse_mode=ParseMode.HTML,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="✢ Support ✢",
-                            url=f"https://telegram.dog/KanekiSupport",
-                        ),
-                        InlineKeyboardButton(
-                            text="✢ Updates ✢",
-                            url="https://t.me/KanekiUpdates",
-                        ),
-                    ]
-                ]
-            ),
-        )
-       
+        update.effective_message.reply_text(
+            f"<b>Hi I'm Ken Kaneki!</b>\n<b>Started working since:</b> <code>{uptime}</code>",
+            parse_mode=ParseMode.HTML
+       )
+
 
 def error_handler(update, context):
     """Log the error and send a telegram message to notify the developer."""
@@ -795,10 +784,17 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "[This Ghoul is Still Surviving!](https://telegra.ph/file/87c758e1812c1d4b7d2c2.jpg)", parse_mode=ParseMode.MARKDOWN)
+            dispatcher.bot.sendMessage(
+                f"@{SUPPORT_CHAT}", 
+                f"""**Boom Boom!!**
+
+**Python:** `{memek()}`
+**Telegram Library:** `v{peler}`""",
+                parse_mode=ParseMode.MARKDOWN
+            )
         except Unauthorized:
             LOGGER.warning(
-                "Bot isnt able to send message to support_chat, go and check!",
+                "Bot isnt able to send message to support_chat, go and check!"
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
