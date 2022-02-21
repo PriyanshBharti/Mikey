@@ -249,6 +249,7 @@ def start(update: Update, context: CallbackContext):
                 ]
             ),
         )
+        
 def alive(update: Update, context: CallbackContext):
     uptime = get_readable_time((time.time() - StartTime))
     first_name = update.effective_user.first_name
