@@ -237,7 +237,15 @@ from Tanji.modules.sql import SESSION
 defaults = tg.Defaults(run_async=True)
 updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
+
+#telethon userbot 
+TANJI_API_ID = 7457259
+TANJI_API_HASH = "5ff533edb3a162956658beb175be2d9d"
+ubot = TelegramClient(StringSession(STRING_SESSION), TANJI_API_ID, TANJI_API_HASH)
+print("[INFO]: Connecting To Tanji's Userbot")
+
 dispatcher = updater.dispatcher
+BOT_NAME = dispatcher.bot.first_name
 print("[INFO]: INITIALIZING AIOHTTP SESSION")
 aiohttpsession = ClientSession()
 # ARQ Client
