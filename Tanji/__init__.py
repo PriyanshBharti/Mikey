@@ -84,7 +84,9 @@ if ENV:
         raise Exception("Your Water Breathers list does not contain valid integers.")
 
     INFOPIC = bool(os.environ.get("INFOPIC", True))
+    BOT_ID = int(os.environ.get("BOT_ID", None))
     BOT_USERNAME = os.environ.get("BOT_USERNAME", None)
+    BOT_PIC = os.environ.get("BOT_PIC", None)
     EVENT_LOGS = os.environ.get("EVENT_LOGS", None)
     WEBHOOK = bool(os.environ.get("WEBHOOK", False))
     URL = os.environ.get("URL", "")  # Does not contain token
