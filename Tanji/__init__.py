@@ -84,6 +84,7 @@ if ENV:
         raise Exception("Your Water Breathers list does not contain valid integers.")
 
     INFOPIC = bool(os.environ.get("INFOPIC", True))
+    BOT_USERNAME = os.environ.get("BOT_USERNAME", None)
     EVENT_LOGS = os.environ.get("EVENT_LOGS", None)
     WEBHOOK = bool(os.environ.get("WEBHOOK", False))
     URL = os.environ.get("URL", "")  # Does not contain token
@@ -91,13 +92,13 @@ if ENV:
     CERT_PATH = os.environ.get("CERT_PATH")
     API_ID = os.environ.get("API_ID", None)
     API_HASH = os.environ.get("API_HASH", None)
+    SESSION_STRING = os.environ.get("SESSION_STRING", None)
     STRING_SESSION = os.environ.get("STRING_SESSION", None)
-    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
-    REDIS_URL = os.environ.get("REDIS_URL", None)
     DB_URL = os.environ.get("DATABASE_URL")
     DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
+    REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None)
+    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
     ARQ_API = os.environ.get("ARQ_API", None)
-    REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None) # From:- https://www.remove.bg/
     DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
@@ -119,11 +120,9 @@ if ENV:
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     CF_API_KEY = os.environ.get("CF_API_KEY", None)
+    WELCOME_DELAY_KICK_SEC = os.environ.get("WELCOME_DELAY_KICL_SEC", None)
     BOT_ID = int(os.environ.get("BOT_ID", None))
-    BOT_USERNAME = os.environ.get("BOT_USERNAME", None)
-    BOT_PIC = os.environ.get("BOT_PIC", None)
-    ALIVE_PIC = os.environ.get("ALIVE_PIC", None)
-    ARQ_API_URL = os.environ.get("ARQ_API_URL", "https://thearq.tech")
+    ARQ_API_URL = "https://thearq.tech"
     ARQ_API_KEY = ARQ_API
     
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
