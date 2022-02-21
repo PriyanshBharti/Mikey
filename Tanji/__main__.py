@@ -228,11 +228,26 @@ def start(update: Update, context: CallbackContext):
                 disable_web_page_preview=False,
             )
     else:
-        update.effective_message.reply_text(
-            f"<b>Hi I'm Ken Kaneki!</b>\n<b>Started working since:</b> <code>{uptime}</code>",
-            parse_mode=ParseMode.HTML
-       )
-
+        update.effective_message.reply_animation(
+            GROUP_START_IMG, caption= "I won't sleep until I satisfy you!\n<b>Haven't slept since:</b> <code>{}</code>".format(
+                uptime
+            ),
+            parse_mode=ParseMode.HTML,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="🚑 Support",
+                            url=f"https://telegram.dog/Freia_Support",
+                        ),
+                        InlineKeyboardButton(
+                            text="📢 Updates",
+                            url="https://t.me/Freia_Updates",
+                        ),
+                    ]
+                ]
+            ),
+        )
 
 def error_handler(update, context):
     """Log the error and send a telegram message to notify the developer."""
@@ -784,17 +799,10 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(
-                f"@{SUPPORT_CHAT}", 
-                f"""**Boom Boom!!**
-
-**Python:** `{memek()}`
-**Telegram Library:** `v{peler}`""",
-                parse_mode=ParseMode.MARKDOWN
-            )
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "[hey! I am back from OYO!!](https://telegra.ph/file/926039375cac9825e1e58.jpg)", parse_mode=ParseMode.MARKDOWN)
         except Unauthorized:
             LOGGER.warning(
-                "Bot isnt able to send message to support_chat, go and check!"
+                "Bot isnt able to send message to support_chat, go and check!",
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
