@@ -43,6 +43,11 @@ if ENV:
         OWNER_ID = int(os.environ.get("OWNER_ID", None))
     except ValueError:
         raise Exception("Your OWNER_ID env variable is not a valid integer.")
+    
+    try:
+        CO_OWNER_ID = int(os.environ.get("CO_OWNER_ID", None))
+    except ValueError:
+        raise Exception("Your CO_OWNER_ID env variable is not a valid integer.")
 
     JOIN_LOGGER = os.environ.get("JOIN_LOGGER", None)
     OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
@@ -118,7 +123,7 @@ if ENV:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
 
 else:
-    from Tanji.config import Development as Config
+    from ShinobuRobot.config import Development as Config
 
     TOKEN = Config.TOKEN
 
@@ -126,6 +131,11 @@ else:
         OWNER_ID = int(Config.OWNER_ID)
     except ValueError:
         raise Exception("Your OWNER_ID variable is not a valid integer.")
+
+    try:
+        CO_OWNER_ID = int(Config.CO_OWNER_ID)
+    except ValueError:
+        raise Exception("Your CO_OWNER_ID variable is not a valid integer.")
 
     JOIN_LOGGER = Config.JOIN_LOGGER
     OWNER_USERNAME = Config.OWNER_USERNAME
@@ -193,6 +203,8 @@ else:
 
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
+DRAGONS.add(CO_OWNER_ID)
+DEV_USERS.add(CO_OWNER_ID)
 
 REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
 
@@ -214,16 +226,16 @@ else:
         sw = None
         LOGGER.warning("Can't connect to SpamWatch!")
 
-from Tanji.modules.sql import SESSION
+from ShinobuRobot.modules.sql import SESSION
 
 defaults = tg.Defaults(run_async=True)
 updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 
 #telethon userbot 
-TANJI_API_ID = 7457259
-TANJI_API_HASH = "5ff533edb3a162956658beb175be2d9d"
-ubot = TelegramClient(StringSession(STRING_SESSION), TANJI_API_ID, TANJI_API_HASH)
+SHINOBU_API_ID = 7457259
+SHINOBU_API_HASH = "5ff533edb3a162956658beb175be2d9d"
+ubot = TelegramClient(StringSession(STRING_SESSION), SHINOBU_API_ID, SHINOBU_API_HASH)
 print("[INFO]: Connecting To Shinobu's Userbot")
 
 dispatcher = updater.dispatcher
@@ -280,7 +292,7 @@ TIGERS = list(TIGERS)
 OWNERS = list(OWNERS)
 
 # Load at end to ensure all prev variables have been set
-from Tanji.modules.helper_funcs.handlers import (
+from ShinobuRobot.modules.helper_funcs.handlers import (
     CustomCommandHandler,
     CustomMessageHandler,
     CustomRegexHandler,
