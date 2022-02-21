@@ -238,12 +238,12 @@ def start(update: Update, context: CallbackContext):
                 [
                     [
                         InlineKeyboardButton(
-                            text="🚑 Support",
-                            url=f"https://telegram.dog/Freia_Support",
+                            text="✢ Support ✢",
+                            url=f"https://telegram.dog/KanekiSupport",
                         ),
                         InlineKeyboardButton(
-                            text="📢 Updates",
-                            url="https://t.me/Freia_Updates",
+                            text="✢ Updates ✢",
+                            url="https://t.me/KanekiUpdates",
                         ),
                     ]
                 ]
