@@ -123,7 +123,7 @@ if ENV:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
 
 else:
-    from ShinobuRobot.config import Development as Config
+    from Tanji.config import Development as Config
 
     TOKEN = Config.TOKEN
 
@@ -233,9 +233,9 @@ updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 
 #telethon userbot 
-SHINOBU_API_ID = 7457259
-SHINOBU_API_HASH = "5ff533edb3a162956658beb175be2d9d"
-ubot = TelegramClient(StringSession(STRING_SESSION), SHINOBU_API_ID, SHINOBU_API_HASH)
+TANJI_API_ID = 7457259
+TANJI_API_HASH = "5ff533edb3a162956658beb175be2d9d"
+ubot = TelegramClient(StringSession(STRING_SESSION), TANJI_API_ID, TANJI_API_HASH)
 print("[INFO]: Connecting To Shinobu's Userbot")
 
 dispatcher = updater.dispatcher
@@ -292,7 +292,7 @@ TIGERS = list(TIGERS)
 OWNERS = list(OWNERS)
 
 # Load at end to ensure all prev variables have been set
-from ShinobuRobot.modules.helper_funcs.handlers import (
+from Tanji.modules.helper_funcs.handlers import (
     CustomCommandHandler,
     CustomMessageHandler,
     CustomRegexHandler,
