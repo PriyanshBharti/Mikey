@@ -319,11 +319,6 @@ def info(update: Update, context: CallbackContext):
          text += "\n\nOwner Of A Bot.Bot Name Inspired From 'Demon Slayer'."
          disaster_level_present = True
         
-            if disaster_level_present:
-        text += ' [<a href="https://t.me/Shinobu_Update_Channel/6">?</a>]'.format(
-            bot.username,
-        )
-
 
     try:
         user_member = chat.get_member(user.id)
