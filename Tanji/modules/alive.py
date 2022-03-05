@@ -8,8 +8,6 @@ from pyrogram import __version__ as pyrover
 from Tanji.events import register
 from Tanji import telethn as tbot
 
-
-def alive(update: Update, context: CallbackContext):
     uptime = get_readable_time((time.time() - StartTime))
     first_name = update.effective_user.first_name
     USER = escape_markdown(first_name)
