@@ -15,7 +15,7 @@ PHOTO = "https://telegra.ph/file/dcdbb6365975d066015c7.mp4"
 async def awake(event):
     text = f"*👋 Hey There* {USER} \n\n"
     text += f"✨ *I'm {BOT_NAME}*\n🍀 *I'm Working Fine as always* \n\n"
-    text += f"*👑 Sun Breather:* [Devansh](tg://user?id=5288049130)\n"
+    text += f"*👑 Owner:* [Devansh](tg://user?id=5288049130)\n"
     text += f"*💻 My Devs :* [Devs of {BOT_NAME}](https://t.me/SunBreatherUpdates/10)\n\n"
     text += "*⛅️ Bot version:* [Yorrichi 1.0](https://t.me/SunBreatherUpdates/)\n"
     text += "*🐍 Python-Telegram-Bot:*" + str(ptbver) + "\n"
