@@ -21,8 +21,8 @@ from telegram.error import BadRequest
 from telegram.ext import InlineQueryHandler, CallbackContext
 from telegram.utils.helpers import mention_html
 
-import tg_bot.modules.sql.users_sql as sql
-from tg_bot import (
+import Tanji.modules.sql.users_sql as sql
+from Tanji import (
     dispatcher,
     OWNER_ID,
     SUDO_USERS,
@@ -33,7 +33,7 @@ from tg_bot import (
     sw,
     log,
 )
-from tg_bot.modules.helper_funcs.misc import article
+from Tanji.modules.helper_funcs.misc import article
 
 client = SPBClient()
 
