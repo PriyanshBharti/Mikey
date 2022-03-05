@@ -254,16 +254,16 @@ def alive(update: Update, context: CallbackContext):
     uptime = get_readable_time((time.time() - StartTime))
     first_name = update.effective_user.first_name
     USER = escape_markdown(first_name)
-    KANEKI = f"👋 *Hey There* {USER} \n\n"
-    KANEKI += f"✨ *I'm {BOT_NAME}*\n🍀 *I'm Working Fine as always* \n\n"
-    KANEKI += f"👑* My Creator:* [Tamim](https://t.me/Darling_Hiro)"
-    KANEKI += f"*🧑‍💻 My Devs :* [Devs of {BOT_NAME}](https://t.me/Shinobu_Update_Channel/34)\n\n"
-    KANEKI += "*🧚‍♂️ Bot version:* [Kaneki 2.0](https://t.me/KanekiUpdates/7)\n"
-    KANEKI += "*🐍 Python-Telegram-Bot:*" + str(ptbver) + "\n"
-    KANEKI += f"*⚡ Uptime:* {uptime}"
+    text = f"*👋 Hey There* {USER} \n\n"
+    text += f"✨ *I'm {BOT_NAME}*\n🍀 *I'm Working Fine as always* \n\n"
+    text += f"*👑 Sun Breather:* [Devansh](tg://user?id=5288049130)\n"
+    text += f"*💻 My Devs :* [Devs of {BOT_NAME}](https://t.me/SunBreatherUpdates/10)\n\n"
+    text += "*⛅️ Bot version:* [Yorrichi 1.0](https://t.me/SunBreatherUpdates/)\n"
+    text += "*🐍 Python-Telegram-Bot:*" + str(ptbver) + "\n"
+    text += f"*⚡ Uptime:* {uptime}"
     update.effective_message.reply_animation(
-      ALIVE_PIC,
-      caption=KANEKI,
+      "CgACAgEAAx0CYCMspwACA7NiH1VUcTbiCRSvUFS6CmS6ZFUIlgACIgIAAqhPAUUBuE3Rfw7JbiME",
+      caption=text,
       reply_markup=InlineKeyboardMarkup(group_buttons),
       parse_mode=ParseMode.MARKDOWN,
 )
