@@ -17,7 +17,7 @@ async def awake(event):
   TEXT += f"✯ **I'm Working Properly** \n\n"
   TEXT += f"✯ **My Owner : [⁰¹⁶ ᕼɪʀᴏ](https://t.me/Darling_Hiro)** \n"
   Text += f"✯ **My Devs :* [Devs of Kaneki](https://t.me/SunBreatherUpdates/10)\n\n"
-  TEXT += f"✯ **Library Version :** `{telever}` \n\n"
+  TEXT += f"✯ **Library Version :** `{telever}` \n"
   TEXT += f"✯ **Telethon Version :** `{tlhver}` \n\n"
   TEXT += f"✯ **Pyrogram Version :** `{pyrover}` \n\n"
   TEXT += "**⋨ Thanks For Adding Me Here**"
