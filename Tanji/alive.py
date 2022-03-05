@@ -16,7 +16,7 @@ async def awake(event):
   TEXT = f"**Hi [{event.sender.first_name}](tg://user?id={event.sender.id}), I'm Ken Kaneki.** \n\n"
   TEXT += f"✯ **I'm Working Properly** \n\n"
   TEXT += f"✯ **My Owner : [⁰¹⁶ ᕼɪʀᴏ](https://t.me/Darling_Hiro)** \n"
-  Text += f"✯ **My Devs :* [Devs of Kaneki](https://t.me/SunBreatherUpdates/10)\n\n"
+  Text += f"✯ **My Devs :* [Devs of Kaneki](https://t.me/SunBreatherUpdates/1)\n\n"
   TEXT += f"✯ **Library Version :** `{telever}` \n"
   TEXT += f"✯ **Telethon Version :** `{tlhver}` \n"
   TEXT += f"✯ **Pyrogram Version :** `{pyrover}"
