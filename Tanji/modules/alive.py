@@ -20,5 +20,3 @@ async def awake(event):
     text += "*⛅️ Bot version:* [Yorrichi 1.0](https://t.me/SunBreatherUpdates/)\n"
     text += "*🐍 Python-Telegram-Bot:*" + str(ptbver) + "\n"
     text += f"*⚡ Uptime:* {uptime}"
-  BUTTON = [[Button.url("✢ Help ✢", "https://t.me/Kaneki_Ken_Robot?start=help"), Button.url("✢ Support ✢", "https://t.me/=KanekiSupport")]]
-  await tbot.send_file(event.chat_id, PHOTO, caption=TEXT,  buttons=BUTTON)
