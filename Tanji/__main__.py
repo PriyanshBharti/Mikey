@@ -6,12 +6,12 @@ import time
 import re
 import sys
 import traceback
-import Kaneki.modules.sql.users_sql as sql
+import Tanji.modules.sql.users_sql as sql
 from sys import argv
 from typing import Optional
 from telegram import __version__ as peler
 from platform import python_version as memek
-from Kaneki import (
+from Tanji import (
     ALLOW_EXCL,
     CERT_PATH,
     DONATION_LINK,
@@ -32,9 +32,9 @@ from Kaneki import (
 
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
-from Kaneki.modules import ALL_MODULES
-from Kaneki.modules.helper_funcs.chat_status import is_user_admin
-from Kaneki.modules.helper_funcs.misc import paginate_modules
+from Tanji.modules import ALL_MODULES
+from Tanji.modules.helper_funcs.chat_status import is_user_admin
+from Tanji.modules.helper_funcs.misc import paginate_modules
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import (
     BadRequest,
@@ -111,7 +111,7 @@ buttons = [
 HELP_STRINGS = """
 Click on the button bellow to get description about specifics command."""
 
-KANEKI_IMG = "https://telegra.ph/file/a11ca8e25b55d54364f1f.jpg"
+TANJI_IMG = "https://telegra.ph/file/a11ca8e25b55d54364f1f.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
  You can support the project by contacting @Darling_Hiro \

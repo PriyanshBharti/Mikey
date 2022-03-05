@@ -1,5 +1,5 @@
 from envparse import env
-from Kaneki import LOGGER
+from Tanji import LOGGER
 
 DEFAULTS = {
     "LOAD_MODULES": True,

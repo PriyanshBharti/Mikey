@@ -3,8 +3,8 @@ import sys
 from motor import motor_asyncio
 from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
-from Kaneki import MONGO_DB_URI
-from Kaneki.confing import get_int_key, get_str_key
+from Tanji import MONGO_DB_URI
+from Tanji.confing import get_int_key, get_str_key
 
 
 MONGO_PORT = get_int_key("27017")
