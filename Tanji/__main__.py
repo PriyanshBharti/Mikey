@@ -94,7 +94,7 @@ PM_START_TEXT = """
 buttons = [
     [
         InlineKeyboardButton(
-            text=f"Add {BOT_NAME} To Your Group",
+            text=f"Add Kaneki To Your Group",
             url=f"t.me/{BOT_USERNAME}?startgroup=true",
         )
     ],
