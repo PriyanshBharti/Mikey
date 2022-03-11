@@ -794,18 +794,21 @@ def main():
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
             dispatcher.bot.sendMessage(
-                f"@{SUPPORT_CHAT}",
-                f"I Am Ready To Work [{GROUP_START_IMG}]",
-                parse_mode=ParseMode.MARKDOWN,
+                f"@{SUPPORT_CHAT}", 
+                f"""**Boom Boom!!**
+
+**Python:** `{memek()}`
+**Telegram Library:** `v{peler}`""",
+                parse_mode=ParseMode.MARKDOWN
             )
         except Unauthorized:
             LOGGER.warning(
-                "Bot isnt able to send message to support_chat, go and check!",
+                "Bot isnt able to send message to support_chat, go and check!"
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
 
- test_handler = CommandHandler("test", test, run_async=True)
+    test_handler = CommandHandler("test", test, run_async=True)
     start_handler = CommandHandler("start", start, run_async=True)
 
     help_handler = CommandHandler("help", get_help, run_async=True)
@@ -831,10 +834,11 @@ def main():
         Filters.status_update.migrate, migrate_chats, run_async=True
     )
 
-    # dispatcher.add_handler(test_handler)
+    dispatcher.add_handler(test_handler)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
-    dispatcher.add_handler(data_callback_handler)
+    dispatcher.add_handler(about_callback_handler)
+    dispatcher.add_handler(source_callback_handler)
     dispatcher.add_handler(settings_handler)
     dispatcher.add_handler(help_callback_handler)
     dispatcher.add_handler(settings_callback_handler)
@@ -853,19 +857,19 @@ def main():
             updater.bot.set_webhook(url=URL + TOKEN)
 
     else:
-        LOGGER.info(
-            f"Shasa started, Using long polling. | BOT: [@{dispatcher.bot.username}]"
-        )
-        updater.start_polling(
-            timeout=15,
-            read_latency=4,
-            drop_pending_updates=True,
-            allowed_updates=Update.ALL_TYPES,
-        )
+        LOGGER.info("Using long polling.")
+        updater.start_polling(timeout=15, read_latency=4, drop_pending_updates=True)
+
+    if len(argv) not in (1, 3, 4):
+        telethn.disconnect()
+    else:
+        telethn.run_until_disconnected()
+
+    updater.idle()
+
 
 if __name__ == "__main__":
-    LOGGER.info(f"Successfully loaded modules: {str(ALL_MODULES)}")
+    LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     pbot.start()
     main()
-    idle()
