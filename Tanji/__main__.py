@@ -479,7 +479,7 @@ def tanji_about_callback(update, context):
                     InlineKeyboardButton(text="✢ Updates ✢", url="https://t.me/KanekiUpdates"),
                  ],
                  [
-                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
+                    InlineKeyboardButton(text="༶ Go Back ༶", callback_data="tanji_"),
                  
                  ]
                 ]
@@ -503,7 +503,7 @@ def tanji_about_callback(update, context):
                     InlineKeyboardButton(text="✢ Co-Owner ✢", url="https://t.me/NyaaNeko"),
                  ],
                     [
-                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
+                    InlineKeyboardButton(text="༶ Go Back ༶", callback_data="tanji_"),
                  ]
                 ]
             ),
@@ -529,7 +529,7 @@ def Source_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")
+                    InlineKeyboardButton(text="༶ Go Back ༶", callback_data="tanji_")
                  ]
                 ]
             ),
@@ -599,7 +599,7 @@ def get_help(update: Update, context: CallbackContext):
             chat.id,
             text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="help_back")]]
+                [[InlineKeyboardButton(text="༶ Go Back ༶", callback_data="help_back")]]
             ),
         )
 
