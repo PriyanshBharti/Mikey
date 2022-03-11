@@ -547,7 +547,6 @@ def shasa_callback_data(update, context):
         )
 
 
-@typing_action
 def get_help(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
