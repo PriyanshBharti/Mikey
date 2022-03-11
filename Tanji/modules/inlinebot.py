@@ -22,8 +22,6 @@ from Tanji import (
     TIGERS,
     WOLVES,
 )
-from Tanji.modules.helper_funcs.misc import article
-from Tanji.modules.helper_funcs.decorators import kiginline
 
 
 def remove_prefix(text, prefix):
