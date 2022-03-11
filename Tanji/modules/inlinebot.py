@@ -23,8 +23,8 @@ from tg_bot import (
     WHITELIST_USERS,
     sw, log
 )
-from tg_bot.modules.helper_funcs.misc import article
-from tg_bot.modules.helper_funcs.decorators import kiginline
+from Tanji.modules.helper_funcs.misc import article
+from Tanji.modules.helper_funcs.decorators import kiginline
 
 
 def remove_prefix(text, prefix):
