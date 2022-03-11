@@ -160,7 +160,6 @@ def inlineinfo(query: str, update: Update, context: CallbackContext) -> None:
     elif user.id in WOLVES:
         text += f"\n\nThe Nation level of this person is Neptunia"
         nation_level_present = True
-            ,
 
     if nation_level_present:
         text += ' [<a href="https://t.me/{}?start=nations">?</a>]'.format(bot.username)
