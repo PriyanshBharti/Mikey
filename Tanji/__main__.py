@@ -822,7 +822,7 @@ def main():
     )
 
     about_callback_handler = CallbackQueryHandler(
-        tanji_about_callback, pattern=r"sasha_", run_async=True
+        sasha_about_callback, pattern=r"sasha_", run_async=True
     )
 
     source_callback_handler = CallbackQueryHandler(
