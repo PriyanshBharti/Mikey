@@ -79,30 +79,31 @@ def get_readable_time(seconds: int) -> str:
 
     return ping_time
 
+GROUP_START_IMG = "https://telegra.ph/file/2901859beedbe837cc419.mp4"
 
 PM_START_TEXT = """
-*Hello {} !*
-• I'm an anime-theme management bot [🌟](https://telegra.ph/file/171cdd6ef81e08a52007f.mp4))
-────────────────────────
+*Ohayo! {} !*
+• I am an Anime themed advance group management bot with a lot of awesome Features. [♡](https://telegra.ph/file/a11ca8e25b55d54364f1f.jpg)
+➖➖➖➖➖➖➖➖➖➖➖➖➖
 × *Uptime:* `{}`
 × `{}` *users, across* `{}` *chats.*
-────────────────────────
+➖➖➖➖➖➖➖➖➖➖➖➖➖
 • Hit /help to see my available commands.
 """
 
 buttons = [
     [
-        InlineKeyboardButton(text="About Tanjirou Kamado", callback_data="tanji_"),
+        InlineKeyboardButton(text="✢ About Ken Kaneki ✢", callback_data="tanji_"),
     ],
     [
-        InlineKeyboardButton(text="Get Help", callback_data="help_back"),
+        InlineKeyboardButton(text="✢ Get Help ✢", callback_data="help_back"),
         InlineKeyboardButton(
-            text="Try inline!​​", switch_inline_query_current_chat=""
+            text="✢ Try inline! ✢​​", switch_inline_query_current_chat=""
         ),
     ],
     [
         InlineKeyboardButton(
-            text="Add Tanjirou To Your Group✨", url="t.me/Tanji_kamado_bot?startgroup=new"),
+            text="✢ Add Kaneki To Your Group ✢", url="t.me/Kaneki_Ken_Robot?startgroup=new"),
     ],
 ]
 
@@ -110,10 +111,10 @@ buttons = [
 HELP_STRINGS = """
 Click on the button bellow to get description about specifics command."""
 
-TANJI_IMG = "https://telegra.ph/file/27b18f6de63ed185376e6.jpg"
+TANJI_IMG = "https://telegra.ph/file/a11ca8e25b55d54364f1f.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
- You can support the project by contacting @Lynncept_iz_here \
+ You can support the project by contacting @Darling_Hiro \
  Supporting isnt always financial! \
  Those who cannot provide monetary support are welcome to help us develop the bot at ."""
 
@@ -198,7 +199,7 @@ def start(update: Update, context: CallbackContext):
                     update.effective_chat.id,
                     HELPABLE[mod].__help__,
                     InlineKeyboardMarkup(
-                        [[InlineKeyboardButton(text="Go Back", callback_data="help_back")]]
+                        [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="help_back")]]
                     ),
                 )
 
@@ -228,11 +229,44 @@ def start(update: Update, context: CallbackContext):
                 disable_web_page_preview=False,
             )
     else:
-        update.effective_message.reply_text(
-            f"<b>Hi I'm Tanjirou Kamado!</b>\n<b>Started working since:</b> <code>{uptime}</code>",
-            parse_mode=ParseMode.HTML
-       )
-
+        update.effective_message.reply_animation(
+            GROUP_START_IMG, caption= "Hey There! I am Ken Kaneki\n<b>Working Since:</b> <code>{}</code>".format(
+                uptime
+            ),
+            parse_mode=ParseMode.HTML,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="✢ Support ✢",
+                            url=f"https://telegram.dog/KanekiSupport",
+                        ),
+                        InlineKeyboardButton(
+                            text="✢ Updates ✢",
+                            url="https://t.me/KanekiUpdates",
+                        ),
+                    ]
+                ]
+            ),
+        )
+        
+def alive(update: Update, context: CallbackContext):
+    uptime = get_readable_time((time.time() - StartTime))
+    first_name = update.effective_user.first_name
+    USER = escape_markdown(first_name)
+    KANEKI = f"👋 *Hey There* {USER} \n\n"
+    KANEKI += f"✨ *I'm {BOT_NAME}*\n🍀 *I'm Working Fine as always* \n\n"
+    KANEKI += f"👑* My Creator:* [Tamim](https://t.me/Darling_Hiro)"
+    KANEKI += f"*🧑‍💻 My Devs :* [Devs of {BOT_NAME}](https://t.me/Shinobu_Update_Channel/34)\n\n"
+    KANEKI += "*🧚‍♂️ Bot version:* [Kaneki 2.0](https://t.me/KanekiUpdates/7)\n"
+    KANEKI += "*🐍 Python-Telegram-Bot:*" + str(ptbver) + "\n"
+    KANEKI += f"*⚡ Uptime:* {uptime}"
+    update.effective_message.reply_animation(
+      ALIVE_PIC,
+      caption=KANEKI,
+      reply_markup=InlineKeyboardMarkup(group_buttons),
+      parse_mode=ParseMode.MARKDOWN,
+)
 
 def error_handler(update, context):
     """Log the error and send a telegram message to notify the developer."""
@@ -360,32 +394,32 @@ def tanji_about_callback(update, context):
     query = update.callback_query
     if query.data == "tanji_":
         query.message.edit_text(
-            text="๏ I'm *Tanjirou*, a powerful group management bot built to help you manage your group easily."
+            text="๏ I'm *Ken Kaneki*, a powerful group management bot built to help you manage your group easily."
             "\n• I can restrict users."
             "\n• I can greet users with customizable welcome messages and even set a group's rules."
             "\n• I have an advanced anti-flood system."
             "\n• I can warn users until they reach max warns, with each predefined actions such as ban, mute, kick, etc."
             "\n• I have a note keeping system, blacklists, and even predetermined replies on certain keywords."
             "\n• I check for admins' permissions before executing any command and more stuffs"
-            "\n\n_Tanjirou's licensed under the GNU General Public License v3.0_"
-            "\n\n Click on button bellow to get basic help for EmikoRobot.",
+            "\n\n_Kaneki's licensed under the GNU General Public License v3.0_"
+            "\n\n Click on button bellow to get basic help for Kaneki_Ken_Robot.",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="Admins", callback_data="tanji_admin"),
-                    InlineKeyboardButton(text="Notes", callback_data="tanji_notes"),
+                    InlineKeyboardButton(text="✢ Admins ✢", callback_data="tanji_admin"),
+                    InlineKeyboardButton(text="✢ Notes ✢", callback_data="tanji_notes"),
                  ],
                  [
-                    InlineKeyboardButton(text="Support", callback_data="tanji_support"),
-                    InlineKeyboardButton(text="Credits", callback_data="tanji_credit"),
+                    InlineKeyboardButton(text="✢ Support ✢", callback_data="tanji_support"),
+                    InlineKeyboardButton(text="✢ Credits ✢", callback_data="tanji_credit"),
                  ],
                  [
-                    InlineKeyboardButton(text="Owner", url="https://t.me/Lynncept_iz_here"),
+                    InlineKeyboardButton(text="✢ Owner ✢", url="https://t.me/Darling_Hiro"),
                 ],
                  [
-                    InlineKeyboardButton(text="Go Back", callback_data="tanji_back"),
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_back"),
                  ]
                 ]
             ),
@@ -408,7 +442,7 @@ def tanji_about_callback(update, context):
     elif query.data == "tanji_admin":
         query.message.edit_text(
             text=f"*๏ Let's make your group bit effective now*"
-            "\nCongragulations, Tanjirou Kamado now ready to manage your group."
+            "\nCongragulations, Ken Kaneki now ready to manage your group."
             "\n\n*Admin Tools*"
             "\nBasic Admin tools help you to protect and powerup your group."
             "\nYou can ban members, Kick members, Promote someone as admin through commands of bot."
@@ -418,7 +452,7 @@ def tanji_about_callback(update, context):
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Go Back", callback_data="tanji_")]]
+                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")]]
             ),
         )
 
@@ -430,22 +464,22 @@ def tanji_about_callback(update, context):
             f"\n\nYou can also set buttons for notes and filters (refer help menu)",
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Go Back", callback_data="tanji_")]]
+                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")]]
             ),
         )
     elif query.data == "tanji_support":
         query.message.edit_text(
-            text="*๏ Tanjirou support chats*"
-            "\nJoin My Support Group/Channel for see or report a problem on Emiko.",
+            text="*๏ Kaneki Support Chat*"
+            "\nJoin My Support Group/Channel for see or report a problem on Kaneki.",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="Support", url="t.me/Tanji_kamado_bot"),
-                    InlineKeyboardButton(text="Updates", url="https://t.me/Tanjirou_updates"),
+                    InlineKeyboardButton(text="✢ Support ✢", url="t.me/KanekiSupport"),
+                    InlineKeyboardButton(text="✢ Updates ✢", url="https://t.me/KanekiUpdates"),
                  ],
                  [
-                    InlineKeyboardButton(text="Go Back", callback_data="tanji_"),
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
                  
                  ]
                 ]
@@ -461,27 +495,15 @@ def tanji_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                   InlineKeyboardButton(text="Tanjirou Kamado", url="https://t.me/Lynncept_iz_here"),
-                   InlineKeyboardButton(text="LYNNCEPT", url="https://youtube.com/channel/UCyR9VMAfEe2jgXQpwnpVcvw"),
+                   InlineKeyboardButton(text="✢ Network ✢", url="https://t.me/TomanNetwork"),
+                   InlineKeyboardButton(text="✢ Devs ✢", url="https://t.me/SastaDev"),
                  ],
                  [
-                    InlineKeyboardButton(text="VJ Walker", url="https://t.me/Slayer_vj"),
-                    InlineKeyboardButton(text="Priyansh", url="https://t.me/Itz_me_crazy_boy"),
+                    InlineKeyboardButton(text="✢ Owner ✢", url="https://t.me/Darling_Hiro"),
+                    InlineKeyboardButton(text="✢ Co-Owner ✢", url="https://t.me/NyaaNeko"),
                  ],
-                 [
-                    InlineKeyboardButton(text="Lynncept Community", url="https://t.me/+0I9HqIlPy4A5ZDUx"),
-                    InlineKeyboardButton(text="Lynncept Content", url="https://t.me/Lynncept_content"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="DemonslayerCorps", url="https://t.me/Tanji_kamado_support"),
-                    InlineKeyboardButton(text="LOGAN ANIME", url="https://t.me/kanaozofficials"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Demon's residence", url="https://t.me/demonresidence"),
-                    InlineKeyboardButton(text="Paste it up", url="https://t.me/pasteitup001"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Go Back", callback_data="tanji_"),
+                    [
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_"),
                  ]
                 ]
             ),
@@ -507,7 +529,7 @@ def Source_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="Go Back", callback_data="tanji_")
+                    InlineKeyboardButton(text="✢ Go Back ✢", callback_data="tanji_")
                  ]
                 ]
             ),
@@ -577,7 +599,7 @@ def get_help(update: Update, context: CallbackContext):
             chat.id,
             text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Go Back", callback_data="help_back")]]
+                [[InlineKeyboardButton(text="✢ Go Back ✢", callback_data="help_back")]]
             ),
         )
 
@@ -649,7 +671,7 @@ def settings_button(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Go Back",
+                                text="✢ Go Back ✢",
                                 callback_data="stngs_back({})".format(chat_id),
                             )
                         ]
@@ -796,17 +818,10 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(
-                f"@{SUPPORT_CHAT}", 
-                f"""**Boom Boom!!**
-
-**Python:** `{memek()}`
-**Telegram Library:** `v{peler}`""",
-                parse_mode=ParseMode.MARKDOWN
-            )
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "[This Ghoul is Still Surviving!](https://telegra.ph/file/87c758e1812c1d4b7d2c2.jpg)", parse_mode=ParseMode.MARKDOWN)
         except Unauthorized:
             LOGGER.warning(
-                "Bot isnt able to send message to support_chat, go and check!"
+                "Bot isnt able to send message to support_chat, go and check!",
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
