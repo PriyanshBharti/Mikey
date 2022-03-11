@@ -29,7 +29,6 @@ from Tanji import (
     pbot,
     updater,
     BOT_USERNAME,
-    BOT_NAME,
 )
 
 # needed to dynamically load modules
