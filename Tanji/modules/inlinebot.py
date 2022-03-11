@@ -16,11 +16,11 @@ from telegram.utils.helpers import mention_html
 import Tanji.modules.sql.users_sql as sql
 from Tanji import (
     OWNER_ID,
-    SUDO_USERS,
-    SUPPORT_USERS,
+    DRAGONS,
+    DEMONS,
     DEV_USERS,
-    SARDEGNA_USERS,
-    WHITELIST_USERS,
+    TIGERS,
+    WOLVES,
     sw, log
 )
 from Tanji.modules.helper_funcs.misc import article
