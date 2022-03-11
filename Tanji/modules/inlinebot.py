@@ -30,7 +30,6 @@ def remove_prefix(text, prefix):
     return text
 
 
-@app.on_inline_query()
 def inlinequery(update: Update, _) -> None:
     """
     Main InlineQueryHandler callback.
