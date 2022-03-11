@@ -21,7 +21,6 @@ from Tanji import (
     DEV_USERS,
     TIGERS,
     WOLVES,
-    sw, log
 )
 from Tanji.modules.helper_funcs.misc import article
 from Tanji.modules.helper_funcs.decorators import kiginline
