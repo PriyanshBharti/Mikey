@@ -13,8 +13,8 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackContext
 from telegram.utils.helpers import mention_html
 
-import tg_bot.modules.sql.users_sql as sql
-from tg_bot import (
+import Tanji.modules.sql.users_sql as sql
+from Tanji import (
     OWNER_ID,
     SUDO_USERS,
     SUPPORT_USERS,
