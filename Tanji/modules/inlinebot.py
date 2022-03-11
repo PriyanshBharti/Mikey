@@ -145,21 +145,22 @@ def inlineinfo(query: str, update: Update, context: CallbackContext) -> None:
     if user.id == OWNER_ID:
         text += f"\n\nThis person is my owner"
         nation_level_present = True
-    elif user.id in DEV_USERS:
+    elif user.id in DRAGONS:
         text += f"\n\nThis Person is a part of Eagle Union"
         nation_level_present = True
     elif user.id in SUDO_USERS:
         text += f"\n\nThe Nation level of this person is Royal"
         nation_level_present = True
-    elif user.id in SUPPORT_USERS:
+    elif user.id in DEMONS:
         text += f"\n\nThe Nation level of this person is Sakura"
         nation_level_present = True
-    elif user.id in SARDEGNA_USERS:
+    elif user.id in DEV_USERS:
         text += f"\n\nThe Nation level of this person is Sardegna"
         nation_level_present = True
-    elif user.id in WHITELIST_USERS:
+    elif user.id in WOLVES:
         text += f"\n\nThe Nation level of this person is Neptunia"
         nation_level_present = True
+            ,
 
     if nation_level_present:
         text += ' [<a href="https://t.me/{}?start=nations">?</a>]'.format(bot.username)
