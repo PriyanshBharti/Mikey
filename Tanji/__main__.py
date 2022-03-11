@@ -110,7 +110,7 @@ buttons = [
 
 
 HELP_STRINGS = """
-Hey there! Myself [𝐒𝐡𝐚𝐬𝐚](https://telegra.ph/file/c3f91b87fa65cd83f306d.jpg).
+Hey there! Myself [Kaneki](https://telegra.ph/file/c3f91b87fa65cd83f306d.jpg).
 I'm a Queen For Fun and help admins manage their groups ! Have a look at the following for an idea of some of the things I can help you with.
 *Main* commands available:
  ➛ /help: PM's you this message.
@@ -135,7 +135,7 @@ CHAT_SETTINGS = {}
 USER_SETTINGS = {}
 
 for module_name in ALL_MODULES:
-    imported_module = importlib.import_module("ShasaBot.modules." + module_name)
+    imported_module = importlib.import_module("Tanji.modules." + module_name)
     if not hasattr(imported_module, "__mod_name__"):
         imported_module.__mod_name__ = imported_module.__name__
 
