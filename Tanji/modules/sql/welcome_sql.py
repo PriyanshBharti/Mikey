@@ -624,12 +624,3 @@ def migrate_chat(old_chat_id, new_chat_id):
                 btn.chat_id = str(new_chat_id)
 
         SESSION.commit()
-
-        def getRaidStatus(chat_id):
-    try:
-        if stat := SESSION.query(RaidMode).get(str(chat_id)):
-            return stat.status, stat.time, stat.acttime
-        return False, 21600, 3600 #default
-    finally:
-        SESSION.close()
-
