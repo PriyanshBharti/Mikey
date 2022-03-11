@@ -1,24 +1,24 @@
-
-import random, html
+from typing import Optional
+import time
+import random
+import Tanji.modules.fun_strings as fun_strings
+from threading import Timer
+from telegram import Message, User
+from telegram import MessageEntity, ParseMode
+from telegram.error import BadRequest
+from telegram.ext import Filters, MessageHandler, run_async
 
 from Tanji import dispatcher
 from Tanji.modules.disable import (
     DisableAbleCommandHandler,
     DisableAbleMessageHandler,
 )
-from Tanji.modules.sql import afk_sql as sql
+from Tanji.modules.sql.afk_redis import start_afk, end_afk, is_user_afk, afk_reason
+from Tanji import REDIS
 from Tanji.modules.users import get_user_id
-from telegram import MessageEntity, Update
-from telegram.error import BadRequest
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
-from telegram.ext import (
-    CallbackContext,
-    CallbackQueryHandler,
-    CommandHandler,
-    Filters,
-    MessageHandler,
-    run_async,
-)
+
+from Tanji.modules.helper_funcs.alternate import send_message
+from Tanji.modules.helper_funcs.readable_time import get_readable_time
 
 AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
