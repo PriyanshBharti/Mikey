@@ -229,10 +229,27 @@ def start(update: Update, context: CallbackContext):
                 disable_web_page_preview=False,
             )
     else:
-        update.effective_message.reply_text(
-            f"<b>Hi I'm Tanjirou Kamado!</b>\n<b>Started working since:</b> <code>{uptime}</code>",
-            parse_mode=ParseMode.HTML
-       )
+        update.effective_message.reply_animation(
+            GROUP_START_IMG, caption= "<b>Hey There! I am Ken Kaneki\nWorking Since</b>: <code>{}</code>".format(
+                uptime
+            ),
+            parse_mode=ParseMode.HTML,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="sᴜᴘᴘᴏʀᴛ", url=f"https://telegram.dog/{SUPPORT_CHAT}"
+                        )
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="ᴜᴘᴅᴀᴛᴇs",
+                            url="https://telegram.dog/LionXupdates",
+                        )
+                    ],
+                ]
+            ),
+        ) 
         
 def alive(update: Update, context: CallbackContext):
     uptime = get_readable_time((time.time() - StartTime))
