@@ -230,7 +230,8 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_animation(
-            GROUP_START_IMG, caption= "Hey There! I am Ken Kaneki\n<b>Working Since:</b> <code>{}</code>".format(
+            GROUP_START_IMG,
+            caption="<code>Shasa is Here For You💜\nI am Awake Since</code>: <code>{}</code>".format(
                 uptime
             ),
             parse_mode=ParseMode.HTML,
@@ -238,14 +239,15 @@ def start(update: Update, context: CallbackContext):
                 [
                     [
                         InlineKeyboardButton(
-                            text="✢ Support ✢",
-                            url=f"https://telegram.dog/KanekiSupport",
-                        ),
+                            text="sᴜᴘᴘᴏʀᴛ", url=f"https://telegram.dog/{SUPPORT_CHAT}"
+                        )
+                    ],
+                    [
                         InlineKeyboardButton(
-                            text="✢ Updates ✢",
-                            url="https://t.me/KanekiUpdates",
-                        ),
-                    ]
+                            text="ᴜᴘᴅᴀᴛᴇs",
+                            url="https://telegram.dog/LionXupdates",
+                        )
+                    ],
                 ]
             ),
         )
