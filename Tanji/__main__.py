@@ -229,35 +229,10 @@ def start(update: Update, context: CallbackContext):
                 disable_web_page_preview=False,
             )
     else:
-            text = (
-                f"Hello {mention_html(user.id, user.first_name)}, I'm {bot.first_name}\n\n"
-                f"┏━━━━━━━━━━━━━━━━━━━\n"
-                f"┣[• Owner : @{OWNER_USERNAME}  \n"
-                f"┣[• Uptime : {uptime} \n"
-                f"┣[• Core : {psutil.cpu_percent()}%\n"
-                f"┣[• Python   : Ver {python_version()} \n"
-                f"┗━━━━━━━━━━━━━━━━━━━")
-        
-
-            keyboard = InlineKeyboardMarkup([
-                [
-                    InlineKeyboardButton(
-                        text="SUPPORT", 
-                        url=f"https://t.me/{SUPPORT_CHAT}"),
-                    InlineKeyboardButton(
-                        text="DEVLOPER", 
-                        url=f"https://t.me/{OWNER_USERNAME}")
-                    
-                ],
-                
-                ])
-            message.reply_photo(
-                        PHOTO,
-                        caption=(text),
-                        reply_markup=keyboard,
-                        parse_mode=ParseMode.HTML,
-                        
-                    )
+        update.effective_message.reply_text(
+            f"<b>Hi I'm Tanjirou Kamado!</b>\n<b>Started working since:</b> <code>{uptime}</code>",
+            parse_mode=ParseMode.HTML
+       )
         
 def alive(update: Update, context: CallbackContext):
     uptime = get_readable_time((time.time() - StartTime))
