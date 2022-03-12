@@ -238,14 +238,17 @@ def start(update: Update, context: CallbackContext):
                 [
                     [
                         InlineKeyboardButton(
-                            text="sᴜᴘᴘᴏʀᴛ", url=f"https://telegram.dog/{SUPPORT_CHAT}"
+                            text="✢ Support ✢",
+                            url=f"https://telegram.dog/KanekiSupport",
+                        ),
                         InlineKeyboardButton(
-                            text="ᴜᴘᴅᴀᴛᴇs",
-                            url="https://telegram.dog/KanekiUpdates",
-                    ],
+                            text="✢ Updates ✢",
+                            url="https://t.me/KanekiUpdates",
+                        ),
+                    ]
                 ]
             ),
-        ) 
+        )
         
 def alive(update: Update, context: CallbackContext):
     uptime = get_readable_time((time.time() - StartTime))
