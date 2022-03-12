@@ -239,13 +239,9 @@ def start(update: Update, context: CallbackContext):
                     [
                         InlineKeyboardButton(
                             text="sᴜᴘᴘᴏʀᴛ", url=f"https://telegram.dog/{SUPPORT_CHAT}"
-                        )
-                    ],
-                    [
                         InlineKeyboardButton(
                             text="ᴜᴘᴅᴀᴛᴇs",
-                            url="https://telegram.dog/LionXupdates",
-                        )
+                            url="https://telegram.dog/KanekiUpdates",
                     ],
                 ]
             ),
