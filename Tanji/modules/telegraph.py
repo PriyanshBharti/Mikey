@@ -98,4 +98,4 @@ __help__ = """
 """
 
 
-__mod_name__ = "Telegraph"
+__mod_name__ = "✢ Telegraph ✢"
