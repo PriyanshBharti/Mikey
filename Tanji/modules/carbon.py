@@ -38,13 +38,13 @@ async def repo(_, message):
 **Telethon Version :** `{s}`
 **Pyrogram Version :** `{z}`
 
-**Create your own with click button bellow.**
+**Sorry, But Source-Code is Private!**
 """,
         reply_markup=InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        "✢ Repo ✢", url="https://github.com/PriyanshBharti/Mikey"), 
+                        "✢ Updates ✢="https://github.com/PriyanshBharti/Mikey"), 
                     InlineKeyboardButton(
                         "✢ Support ✢", url="https://t.me/KanekiSupport")
                 ]
