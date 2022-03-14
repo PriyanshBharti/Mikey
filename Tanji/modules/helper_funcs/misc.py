@@ -1,113 +1,141 @@
-from MikuXProBot.modules.helper_funcs.chat_status import user_admin
-from MikuXProBot.modules.disable import DisableAbleCommandHandler
-from MikuXProBot import dispatcher
+from  uuid  import  uuid4
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram import ParseMode, Update
-from telegram.ext.dispatcher import run_async
-from telegram.ext import CallbackContext, Filters, CommandHandler
+from math import ceil
+from typing import Dict, List
 
-MARKDOWN_HELP = f"""
-Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
-saved messages are correctly parsed, and to allow you to create buttons.
-
-• <code>_italic_</code>: wrapping text with '_' will produce italic text
-• <code>*bold*</code>: wrapping text with '*' will produce bold text
-• <code>`code`</code>: wrapping text with '`' will produce monospaced text, also known as 'code'
-• <code>[sometext](someURL)</code>: this will create a link - the message will just show <code>sometext</code>, \
-and tapping on it will open the page at <code>someURL</code>.
-<b>Example:</b><code>[test](example.com)</code>
-
-• <code>[buttontext](buttonurl:someURL)</code>: this is a special enhancement to allow users to have telegram \
-buttons in their markdown. <code>buttontext</code> will be what is displayed on the button, and <code>someurl</code> \
-will be the url which is opened.
-<b>Example:</b> <code>[This is a button](buttonurl:example.com)</code>
-
-If you want multiple buttons on the same line, use :same, as such:
-<code>[one](buttonurl://example.com)
-[two](buttonurl://google.com:same)</code>
-This will create two buttons on a single line, instead of one button per line.
-
-Keep in mind that your message <b>MUST</b> contain some text other than just a button!
-"""
+from MikuXProBot import NO_LOAD
+from telegram import MAX_MESSAGE_LENGTH, Bot, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, InlineQueryResultArticle, InputTextMessageContent
+from telegram.error import TelegramError
 
 
-@run_async
-@user_admin
-def echo(update: Update, context: CallbackContext):
-    args = update.effective_message.text.split(None, 1)
-    message = update.effective_message
+class EqInlineKeyboardButton(InlineKeyboardButton):
+    def __eq__(self, other):
+        return self.text == other.text
 
-    if message.reply_to_message:
-        message.reply_to_message.reply_text(
-            args[1], parse_mode="MARKDOWN", disable_web_page_preview=True)
+    def __lt__(self, other):
+        return self.text < other.text
+
+    def __gt__(self, other):
+        return self.text > other.text
+
+
+def split_message(msg: str) -> List[str]:
+    if len(msg) < MAX_MESSAGE_LENGTH:
+        return [msg]
+
+    lines = msg.splitlines(True)
+    small_msg = ""
+    result = []
+    for line in lines:
+        if len(small_msg) + len(line) < MAX_MESSAGE_LENGTH:
+            small_msg += line
+        else:
+            result.append(small_msg)
+            small_msg = line
+    # Else statement at the end of the for loop, so append the leftover string.
+    result.append(small_msg)
+
+    return result
+
+
+def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
+    if not chat:
+        modules = sorted(
+            [EqInlineKeyboardButton(x.__mod_name__,
+                                    callback_data="{}_module({})".format(prefix, x.__mod_name__.lower())) for x
+             in module_dict.values()])
     else:
-        message.reply_text(
-            args[1],
-            quote=False,
-            parse_mode="MARKDOWN",
-            disable_web_page_preview=True)
-    message.delete()
+        modules = sorted(
+            [EqInlineKeyboardButton(x.__mod_name__,
+                                    callback_data="{}_module({},{})".format(prefix, chat, x.__mod_name__.lower())) for x
+             in module_dict.values()])
 
+    pairs = [
+    modules[i * 3:(i + 1) * 3] for i in range((len(modules) + 3 - 1) // 3)
+    ]
 
-def markdown_help_sender(update: Update):
-    update.effective_message.reply_text(
-        MARKDOWN_HELP, parse_mode=ParseMode.HTML)
-    update.effective_message.reply_text(
-        "Try forwarding the following message to me, and you'll see, and Use #test!"
+    round_num = len(modules) / 3
+    calc = len(modules) - round(round_num)
+    if calc in [1, 2]:
+        pairs.append((modules[-1],))
+    else:
+        pairs += [[
+            (EqInlineKeyboardButton("Try inline", switch_inline_query_current_chat="",)),
+                EqInlineKeyboardButton("Back", callback_data="miku_back"),
+             EqInlineKeyboardButton("Support", url="t.me/Mikussupport")]]
+
+    return pairs
+
+def article(
+    title: str = "",
+    description: str = "",
+    message_text: str = "",
+    thumb_url: str = None,
+    reply_markup: InlineKeyboardMarkup = None,
+    disable_web_page_preview: bool = False,
+) -> InlineQueryResultArticle:
+
+    return InlineQueryResultArticle(
+        id=uuid4(),
+        title=title,
+        description=description,
+        thumb_url=thumb_url,
+        input_message_content=InputTextMessageContent(
+            message_text=message_text,
+            disable_web_page_preview=disable_web_page_preview,
+        ),
+        reply_markup=reply_markup,
     )
-    update.effective_message.reply_text(
-        "/save test This is a markdown test. _italics_, *bold*, code, "
-        "[URL](example.com) [button](buttonurl:github.com) "
-        "[button2](buttonurl://google.com:same)")
+
+def send_to_list(
+    bot: Bot, send_to: list, message: str, markdown=False, html=False
+) -> None:
+    if html and markdown:
+        raise Exception("Can only send with either markdown or HTML!")
+    for user_id in set(send_to):
+        try:
+            if markdown:
+                bot.send_message(user_id, message, parse_mode=ParseMode.MARKDOWN)
+            elif html:
+                bot.send_message(user_id, message, parse_mode=ParseMode.HTML)
+            else:
+                bot.send_message(user_id, message)
+        except TelegramError:
+            pass  # ignore users who fail
 
 
-@run_async
-def markdown_help(update: Update, context: CallbackContext):
-    if update.effective_chat.type != "private":
-        update.effective_message.reply_text(
-            'Contact me in pm',
-            reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton(
-                    "Markdown help",
-                    url=f"t.me/{context.bot.username}?start=markdownhelp")
-            ]]))
-        return
-    markdown_help_sender(update)
+def build_keyboard(buttons):
+    keyb = []
+    for btn in buttons:
+        if btn.same_line and keyb:
+            keyb[-1].append(InlineKeyboardButton(btn.name, url=btn.url))
+        else:
+            keyb.append([InlineKeyboardButton(btn.name, url=btn.url)])
+
+    return keyb
 
 
-__help__ = """
-*Available commands:*
-*Markdown:*
- • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats
-*Paste:*
- • `/paste`*:* Saves replied content to `nekobin.com` and replies with a url
-*React:*
- • `/react`*:* Reacts with a random reaction 
-*Urban Dictonary:*
- • `/ud <word>`*:* Type the word or expression you want to search use
-*Wikipedia:*
- • `/wiki <query>`*:* wikipedia your query
-*Wallpapers:*
- • `/wall <query>`*:* get a wallpaper from wall.alphacoders.com
-*Currency converter:* 
- • `/cash`*:* currency converter
-Example:
- `/cash 1 USD INR`  
-      _OR_
- `/cash 1 usd inr`
-Output: `1.0 USD = 75.505 INR`
-"""
+def revert_buttons(buttons):
+    return "".join(
+        "\n[{}](buttonurl://{}:same)".format(btn.name, btn.url)
+        if btn.same_line
+        else "\n[{}](buttonurl://{})".format(btn.name, btn.url)
+        for btn in buttons
+    )
 
-ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
-MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 
-dispatcher.add_handler(ECHO_HANDLER)
-dispatcher.add_handler(MD_HELP_HANDLER)
+def build_keyboard_parser(bot, chat_id, buttons):
+    keyb = []
+    for btn in buttons:
+        if btn.url == "{rules}":
+            btn.url = "http://t.me/{}?start={}".format(bot.username, chat_id)
+        if btn.same_line and keyb:
+            keyb[-1].append(InlineKeyboardButton(btn.name, url=btn.url))
+        else:
+            keyb.append([InlineKeyboardButton(btn.name, url=btn.url)])
 
-__mod_name__ = "Extra➕"
-__command_list__ = ["id", "echo"]
-__handlers__ = [
-    ECHO_HANDLER,
-    MD_HELP_HANDLER,
-]
+    return keyb
+
+
+def is_module_loaded(name):
+    return name not in NO_LOAD
